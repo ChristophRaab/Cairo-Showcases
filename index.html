@@ -3,13 +3,13 @@
   <meta name="keywords" content="visualization,embeddings,machine learning,javascript">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Embedding projector - visualization of high-dimensional data">
+  <meta property="og:title" content="FHWS Jukebox - visualization of music">
   <meta property="og:description" content="Visualize high dimensional data.">
   <meta property="og:url" content="http://projector.tensorflow.org">
   <meta property="og:image" content="http://projector.tensorflow.org/preview.png">
 
   <meta name="twitter:card" value="summary_large_image">
-  <meta name="twitter:title" content="Embedding projector - visualization of high-dimensional data">
+  <meta name="twitter:title" content="FHWS Jukebox - visualization of music">
   <meta name="twitter:description" content="Visualize high dimensional data.">
   <meta name="twitter:url" content="http://projector.tensorflow.org">
   <meta name="twitter:image" content="http://projector.tensorflow.org/preview.png">
@@ -22,7 +22,7 @@
 
   <meta name="author" content="Daniel Smilkov, Nikhil Thorat, Charles Nicholson, Big Picture">
 
-  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="icon" type="image/png" href="../favicon.ico">
   
   <script>/**
  * @license
@@ -11393,7 +11393,7 @@ paper-dropdown-menu paper-item {
 }
 
 </style>
-<div class="title">DATA</div>
+<div class="title">Musik</div>
 <div class="container">
   
   <template is="dom-if" if="[[_hasChoices(runNames)]]">
@@ -11477,7 +11477,7 @@ paper-dropdown-menu paper-item {
       </paper-input>
     </div>
     
-    <div class="metadata-editor">
+    <div class="metadata-editor" style="display:None">
       <paper-dropdown-menu no-animations label="Edit by">
         <paper-listbox attr-for-selected="value" class="dropdown-content" slot="dropdown-content" on-selected-item-changed="metadataEditorColumnChange" selected="{{metadataEditorColumn}}">
           <template is="dom-repeat" items="[[metadataFields]]">
@@ -12746,8 +12746,8 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
         Principal component analysis
       </paper-tooltip>
 
-      <div data-tab="custom" id="custom-tab" class="ink-tab projection-tab" title="Linear projection of two custom vectors">Custom</div>
-      <paper-tooltip for="custom-tab" position="bottom" animation-delay="0" fit-to-visible-bounds>
+      <div data-tab="custom" id="custom-tab" style="display:None" class="ink-tab projection-tab" title="Linear projection of two custom vectors">Custom</div>
+      <paper-tooltip for="custom-tab" style="display:None" position="bottom" animation-delay="0" fit-to-visible-bounds>
         Search for two vectors upon which to project all points.
       </paper-tooltip>
 
@@ -13265,7 +13265,7 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
     <div class="ink-panel-content active">
       <vz-projector-inspector-panel id="inspector-panel"></vz-projector-inspector-panel>
     </div>
-    <div id="bookmark-panel-container">
+    <div id="bookmark-panel-container" style="display:None">
       <vz-projector-bookmark-panel id="bookmark-panel"></vz-projector-bookmark-panel>
     </div>
   </div>
@@ -13317,7 +13317,7 @@ g);k=new a.Projection(e.selectedProjection,h,g.length,this.dataSet);this.setProj
   padding: 0 24px;
   height: 60px;
   color: white;
-  background: #560731;
+  background: #EC6F05;
 }
 
 #appbar .logo {
@@ -13344,7 +13344,7 @@ vz-projector {
 
 <div id="container">
   <div id="appbar">
-    <div>Embedding Projector</div>
+    <div>FHWS Jukebox</div>
     <div class="icons">
       <a title="Documentation" target="_blank" href="[[documentationLink]]">
         <paper-icon-button icon="help-outline"></paper-icon-button>
@@ -13374,7 +13374,7 @@ Polymer({is:"vz-projector-app",properties:{pageViewLogging:{type:Boolean,value:!
   
   
 
-  <title>Embedding projector - visualization of high-dimensional data</title>
+  <title>FHWS Jukebox - visualization of music</title>
   <style include="vz-projector-styles"></style>
   <style>
     html {
