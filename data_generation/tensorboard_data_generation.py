@@ -21,65 +21,39 @@ import base64
 
 def read_name_from_directory(dir_name):
     file_names = glob.glob(dir_name+"/**/*.[MID|mid]*",recursive=True)
-    file_names = [f.replace("\\","/").replace("mov","") for f in file_names]
-    meta = [[f.split("/")[2],f.split("/")[-1]] for f in file_names]
+    file_names = [f.replace("\\","/").replace(dir_name,"").replace(".mid","").replace("mov","") for f in file_names]
+    meta = [[f.split("/")[0],f.split("/")[1]] for f in file_names]
     labels = [m[0] for m in meta]
     names = [m[1].split(".")[0] for m in meta]
     return labels,names
 
-def do_pca(features):
-    # # Generating PCA
-    # If PCA is needed beforehand
-    pca = PCA(n_components=50,
-             random_state = 123,
-             svd_solver = 'auto'
-             )
-    return pca.fit_transform(features)
 
+   
 def read_midi_kernel(path):
     df = pd.read_csv(path,header=None)
-    return df.values
+    return df.values.astype(np.float32)
 
-features = read_midi_kernel("midi_d.csv")
+path_data = os.getcwd() + '/data_generation/'
 
+board_data = 'oss_data/'
+labels_path = "mozart_labels.tsv"
+data_path ="mozart.bytes"
 
-### Feature preprocessing
-features =do_pca(features)
-sc_X = MinMaxScaler()
-features = sc_X.fit_transform(features)
-
-### Set Tensorboard paths and create metadata
-PATH = os.getcwd()
-LOG_DIR = PATH + '/log/'
-metadata_path = "labels.csv"
 
 ## Create Metdadata
-if os.name =="nt":
-    labels,names = read_name_from_directory("midi/classic/")
-    metadata = [[n,l] for n,l in zip(names,labels)]
-    pd.DataFrame(metadata).to_csv(header=["Name","Artist"],sep="\t",index=False,path_or_buf=LOG_DIR+metadata_path)
+labels,names = read_name_from_directory(path_data+"/midi/classic/")
+metadata = [[n,l] for n,l in zip(names,labels)]
+pd.DataFrame(metadata).to_csv(header=["Songname","Artist"],sep="\t",index=False,path_or_buf=board_data+labels_path)
+
+features = read_midi_kernel(path_data+"midi_d.csv")
+features = MinMaxScaler().fit_transform(features)
+features = PCA(n_components=50).fit_transform(features)
+features.tofile(board_data+data_path)
 
 
-### Setup Tensorbard and variables
-embeddings = tf.Variable(features, name='Musik')
-CHECKPOINT_FILE = LOG_DIR + '/model.ckpt'
-ckpt = tf.train.Checkpoint(embeddings=embeddings)
-ckpt.save(CHECKPOINT_FILE)
-
-reader = tf.train.load_checkpoint(LOG_DIR)
-map = reader.get_variable_to_shape_map()
-key_to_use = ""
-for key in map:
-    if "Musik" in key:
-        key_to_use = key
-
-config = projector.ProjectorConfig()
-embedding = config.embeddings.add()
-embedding.tensor_name = key_to_use
-embedding.metadata_path = metadata_path
-
-writer = tf.summary.create_file_writer(LOG_DIR)
-projector.visualize_embeddings(LOG_DIR,config)
+# Save data
+# features.dtype=np.float32
+# features.tofile(board_data+data_path)
 
 #Standalone:
 #python -m http.server 8080 --bind 194.95.221.186

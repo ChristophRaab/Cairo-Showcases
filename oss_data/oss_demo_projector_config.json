@@ -1,6 +1,12 @@
 {
   "embeddings": [
     {
+      "tensorName": "Mozart",
+      "tensorShape": [709, 50],
+      "tensorPath": "oss_data/mozart.bytes",
+      "metadataPath": "oss_data/mozart_labels.tsv"
+    },
+    {
       "tensorName": "Word2Vec 10K",
       "tensorShape": [10000, 200],
       "tensorPath": "oss_data/word2vec_10000_200d_tensors.bytes",
