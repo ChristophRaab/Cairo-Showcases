@@ -1,2 +1,3 @@
 data_generation/tensorboard/webfiles/webfiles.zip
-.vscode/settings.json
+.vscode/
+.vscode/*
