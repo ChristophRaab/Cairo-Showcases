@@ -1,2 +1,4 @@
 data_generation/tensorboard/webfiles/webfiles.zip
 data_generation/spotify/*
+.vscode/
+.vscode/*
