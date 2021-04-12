@@ -3,16 +3,11 @@
   <meta name="keywords" content="visualization,embeddings,machine learning,javascript">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="FHWS Jukebox - visualization of music">
-  <meta property="og:description" content="Visualize high dimensional data.">
+  <meta property="og:title" content="FHWS Jukebox - Visualiserung von Musik">
+  <meta property="og:description" content=Visualiserung von Musik">
   <meta property="og:url" content="http://projector.tensorflow.org">
   <meta property="og:image" content="http://projector.tensorflow.org/preview.png">
 
-  <meta name="twitter:card" value="summary_large_image">
-  <meta name="twitter:title" content="FHWS Jukebox - visualization of music">
-  <meta name="twitter:description" content="Visualize high dimensional data.">
-  <meta name="twitter:url" content="http://projector.tensorflow.org">
-  <meta name="twitter:image" content="http://projector.tensorflow.org/preview.png">
 
   <meta http-equiv="cache-control" content="max-age=0">
   <meta http-equiv="cache-control" content="no-cache">
@@ -11486,27 +11481,27 @@ paper-dropdown-menu paper-item {
       </paper-input>
     </div>
   </template>
-  <div id="demo-data-buttons-container">
-    <span class="button-container">
+  <div id="demo-data-buttons-container" >
+    <span class="button-container" style="display: none;">
       <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
         Load data from your computer
       </paper-tooltip>
       <paper-button id="upload" class="ink-button" onclick="dataDialog.open()">Load</paper-button>
     </span>
-    <span id="publish-container" class="button-container">
+    <span id="publish-container" class="button-container" style="display: none;">
       <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
         Publish your embedding visualization and data
       </paper-tooltip>
       <paper-button id="host-embedding" class="ink-button" onclick="projectorConfigDialog.open()">Publish</paper-button>
     </span>
-    <span class="button-container">
+    <span class="button-container" style="display: none;">
       <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
         Download the metadata with applied modifications
       </paper-tooltip>
       <paper-button class="ink-button" on-click="downloadMetadataClicked">Download</paper-button>
       <a href="#" id="downloadMetadataLink" hidden></a>
     </span>
-    <span id="label-button" class="button-container">
+    <span id="label-button" class="button-container" style="display: none;">
       <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
         Label selected metadata
       </paper-tooltip>
@@ -12569,8 +12564,10 @@ g.enableResetFilterButton(!1)};this.clearSelectionButton.onclick=function(){e.ad
         </template>
       </div>
     </iron-collapse>
+    <iframe src="https://open.spotify.com/embed/track/2Lu4A1yRyvG56B1rgKx8Q7" style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>
   </div>
 </template>
+
 </template>
 <script>//~~WEBPATH~~/vz-projector/vz-projector-metadata-card.js
 zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,c){b.__proto__=c}||function(b,c){for(var d in c)c.hasOwnProperty(d)&&(b[d]=c[d])};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}();
@@ -12724,8 +12721,6 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
 <div id="main">
   <div class="ink-panel-header">
     <div class="ink-tab-group">
-
-  
 
       <div data-tab="tsne" id="tsne-tab" class="ink-tab projection-tab">t-SNE</div>
       <paper-tooltip for="tsne-tab" position="bottom" animation-delay="0" fit-to-visible-bounds>
