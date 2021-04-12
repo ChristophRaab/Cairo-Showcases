@@ -4914,12 +4914,7 @@ process.umask = function() { return 0; };
 },{}]},{},[1])(1)
 });
 </script><script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-46457317-5', 'auto');
 </script><script>//~~WEBPATH~~javascript/closure/base.js
 var fa;
 //~~WEBPATH~~javascript/closure/deps.js
@@ -10324,8 +10319,8 @@ for(var n=new Float32Array(m(l[0]).length),q=0;q<l.length;++q)for(var p=m(l[q]),
 0;t<m;++t)q[t*l+p]=n[p*m+t];return q}})(a.vector||(a.vector={}))})(wc||(wc={}));
 </script>
 <script>//~~WEBPATH~~/vz-projector/knn.js
-(function(a){(function(b){function c(d,e,g,h){return a.util.runAsyncTask("Finding nearest neighbors...",function(){for(var k=d.length,l=Array(k),m=Array(k),n=0;n<k;n++)m[n]=new a.KMin(e);for(n=0;n<k;n++)for(var q=g(d[n]),p=m[n],t=n+1;t<k;t++){var r=m[t],v=p.getSize()===e?p.getLargestKey()||Number.MAX_VALUE:Number.MAX_VALUE,u=r.getSize()===e?r.getLargestKey()||Number.MAX_VALUE:Number.MAX_VALUE;v=Math.max(v,u);v=h(q,g(d[t]),v);0<=v&&(p.add(v,{index:t,dist:v}),r.add(v,{index:n,dist:v}))}for(n=0;n<k;n++)l[n]=
-m[n].getMinKItems();return l})}b.findKNNGPUCosine=function(d,e,g){function h(A){a.util.runAsyncTask("Finding nearest neighbors: "+(100*u).toFixed()+"%",function(){for(var y=x<r?t+1:t,B=new Float32Array(y*l),F=0;F<y;++F)for(var K=g(d[v+F]),L=0;L<l;++L)B[F*l+L]=K[L];F=new weblas.pipeline.Tensor([y,l],B);K=weblas.pipeline.sgemm(1,n,F,null,null);B=K.transfer();F.delete();K.delete();u+=w;for(F=0;F<y;F++){K=new a.KMin(e);L=v+F;for(var N=0;N<k;N++)if(N!==L){var Q=1-B[N*y+F];K.add(Q,{index:N,dist:Q})}q[L]=
+(function(a){(function(b){function c(d,e,g,h){return a.util.runAsyncTask("Benachbarte Lieder werden gesucht...",function(){for(var k=d.length,l=Array(k),m=Array(k),n=0;n<k;n++)m[n]=new a.KMin(e);for(n=0;n<k;n++)for(var q=g(d[n]),p=m[n],t=n+1;t<k;t++){var r=m[t],v=p.getSize()===e?p.getLargestKey()||Number.MAX_VALUE:Number.MAX_VALUE,u=r.getSize()===e?r.getLargestKey()||Number.MAX_VALUE:Number.MAX_VALUE;v=Math.max(v,u);v=h(q,g(d[t]),v);0<=v&&(p.add(v,{index:t,dist:v}),r.add(v,{index:n,dist:v}))}for(n=0;n<k;n++)l[n]=
+m[n].getMinKItems();return l})}b.findKNNGPUCosine=function(d,e,g){function h(A){a.util.runAsyncTask("Benachbarte Lieder werden gesucht: "+(100*u).toFixed()+"%",function(){for(var y=x<r?t+1:t,B=new Float32Array(y*l),F=0;F<y;++F)for(var K=g(d[v+F]),L=0;L<l;++L)B[F*l+L]=K[L];F=new weblas.pipeline.Tensor([y,l],B);K=weblas.pipeline.sgemm(1,n,F,null,null);B=K.transfer();F.delete();K.delete();u+=w;for(F=0;F<y;F++){K=new a.KMin(e);L=v+F;for(var N=0;N<k;N++)if(N!==L){var Q=1-B[N*y+F];K.add(Q,{index:N,dist:Q})}q[L]=
 K.getMinKItems()}u+=w;v+=y;x++},"knn-gpu").then(function(){x<p?h(A):(a.logging.setModalMessage(null,"knn-gpu"),n.delete(),A(q))},function(){a.logging.setModalMessage(null,"knn-gpu");c(d,e,g,function(y,B){return a.vector.cosDistNorm(y,B)}).then(function(y){A(y)})})}var k=d.length,l=g(d[0]).length,m=a.vector.toTypedArray(d,g),n=new weblas.pipeline.Tensor([k,l],m),q=Array(k),p=Math.ceil(k/256),t=Math.floor(k/p),r=k%p,v=0,u=0,w=1/(2*p),x=0;return new Promise(function(A){return h(A)})};b.findKNN=c;b.findKNNofPoint=
 function(d,e,g,h,k){g=new a.KMin(g);for(var l=h(d[e]),m=0;m<d.length;++m)if(m!==e){var n=h(d[m]);n=k(l,n);g.add(n,{index:m,dist:n})}return g.getMinKItems()}})(a.knn||(a.knn={}))})(wc||(wc={}));
 </script>
@@ -10336,12 +10331,12 @@ k[2],e.ops.push(m);else{k[2]&&e.ops.pop();e.trys.pop();continue}}m=b.call(a,e)}c
 (function(a){function b(g){for(var h=null,k=0,l=e;k<l.length;k++){var m=l[k];if(m in g&&""!==g[m]){h=g[m];break}}return null==h?null:+h}var c=0<=navigator.userAgent.toLowerCase().indexOf("firefox"),d=a.util.hasWebGLSupport()&&!c;a.TSNE_SAMPLE_SIZE=1E4;a.UMAP_SAMPLE_SIZE=5E3;a.PCA_SAMPLE_SIZE=5E4;a.PCA_SAMPLE_DIM=200;var e=["__next__","__seq_next__"];c=function(){function g(h,k){this.shuffledDataIndices=[];this.projections={};this.tSNEIteration=0;this.tSNEShouldPause=!1;this.tSNEShouldStop=!0;this.superviseInput=
 "";this.dim=[0,0];this.hasUmapRun=this.hasTSNERun=!1;this.points=h;this.shuffledDataIndices=a.util.shuffle(a.util.range(this.points.length));this.sequences=this.computeSequences(h);this.dim=[this.points.length,this.points[0].vector.length];this.spriteAndMetadataInfo=k}g.prototype.computeSequences=function(h){for(var k=new Int8Array(h.length),l={},m=[],n=0;n<h.length;n++)if(!k[n]){k[n]=1;var q=b(h[n].metadata);if(null!=q)if(q in l)q=l[q],q.pointIndices.unshift(n),l[n]=q;else{q={pointIndices:[]};l[n]=
 q;m.push(q);for(var p=n;h[p];)q.pointIndices.push(p),p=b(h[p].metadata),null!=p?k[p]=1:p=-1}}return m};g.prototype.projectionCanBeRendered=function(h){return"tsne"!==h?!0:0<this.tSNEIteration};g.prototype.getSubset=function(h){var k=this;h=(null!=h&&0<h.length?h.map(function(l){return k.points[l]}):this.points).map(function(l){return{metadata:l.metadata,index:l.index,vector:l.vector.slice(),projections:{}}});return new g(h,this.spriteAndMetadataInfo)};g.prototype.normalize=function(){var h=a.vector.centroid(this.points,
-function(m){return m.vector});if(null==h)throw Error("centroid should not be null");for(var k=0;k<this.points.length;++k){var l=this.points[k];l.vector=a.vector.sub(l.vector,h);0<a.vector.norm2(l.vector)&&a.vector.unit(l.vector)}};g.prototype.projectLinear=function(h,k){this.projections[k]=!0;this.points.forEach(function(l){l.projections[k]=a.vector.dot(l.vector,h)})};g.prototype.projectPCA=function(){var h=this;return null!=this.projections["pca-0"]?Promise.resolve(null):a.util.runAsyncTask("Computing PCA...",
+function(m){return m.vector});if(null==h)throw Error("centroid should not be null");for(var k=0;k<this.points.length;++k){var l=this.points[k];l.vector=a.vector.sub(l.vector,h);0<a.vector.norm2(l.vector)&&a.vector.unit(l.vector)}};g.prototype.projectLinear=function(h,k){this.projections[k]=!0;this.points.forEach(function(l){l.projections[k]=a.vector.dot(l.vector,h)})};g.prototype.projectPCA=function(){var h=this;return null!=this.projections["pca-0"]?Promise.resolve(null):a.util.runAsyncTask("Berechne PCA...",
 function(){var k=h.points[0].vector.length,l=h.shuffledDataIndices.map(function(r){return h.points[r].vector});k>a.PCA_SAMPLE_DIM&&(l=a.vector.projectRandom(l,a.PCA_SAMPLE_DIM));var m=l.slice(0,a.PCA_SAMPLE_SIZE),n=numeric.dot,q=numeric.transpose;k=numeric.svd;var p=numeric.div;n=n(q(m),m);m=p(n,m.length);m=k(m);p=m.S;for(k=n=0;k<p.length;++k)n+=p[k];for(k=0;k<p.length;++k)p[k]/=n;h.fracVariancesExplained=p;var t=m.U;l=l.map(function(r){for(var v=new Float32Array(10),u=0;10>u;u++){for(var w=0,x=0;x<
 r.length;x++)w+=r[x]*t[x][u];v[u]=w}return v});for(m=0;10>m;m++)for(p="pca-"+m,h.projections[p]=!0,k=0;k<l.length;k++)h.points[h.shuffledDataIndices[k]].projections[p]=l[k][m]})};g.prototype.projectTSNE=function(h,k,l,m){function n(){if(q.tSNEShouldStop)q.projections.tsne=!1,m(null),q.tsne=null,q.hasTSNERun=!1;else{if(!q.tSNEShouldPause){q.tsne.step();var r=q.tsne.getSolution();t.forEach(function(v,u){v=q.points[v];v.projections["tsne-0"]=r[u*l];v.projections["tsne-1"]=r[u*l+1];3===l&&(v.projections["tsne-2"]=
 r[u*l+2])});q.projections.tsne=!0;q.tSNEIteration++;m(q.tSNEIteration)}requestAnimationFrame(n)}}var q=this;this.hasTSNERun=!0;var p=Math.floor(3*h);this.tsne=new a.TSNE({epsilon:k,perplexity:h,dim:l});this.tsne.setSupervision(this.superviseLabels,this.superviseInput);this.tsne.setSuperviseFactor(this.superviseFactor);this.tSNEShouldStop=this.tSNEShouldPause=!1;this.tSNEIteration=0;var t=this.shuffledDataIndices.slice(0,a.TSNE_SAMPLE_SIZE);h=t.map(function(r){return q.points[r]});this.computeKnn(h,
-p).then(function(r){q.nearest=r;a.util.runAsyncTask("Initializing T-SNE...",function(){q.tsne.initDataDist(q.nearest)}).then(n)})};g.prototype.projectUmap=function(h,k,l){xc(this,void 0,void 0,function(){var m,n,q,p,t,r,v,u=this;return yc(this,function(w){switch(w.label){case 0:return this.hasUmapRun=!0,this.umap=new UMAP({nComponents:h,nNeighbors:k}),m=0,n=10,q=this.shuffledDataIndices.slice(0,a.UMAP_SAMPLE_SIZE),p=q.map(function(x){return u.points[x]}),t=p.map(function(x){return Array.from(x.vector)}),
-r=this,[4,this.computeKnn(p,k)];case 1:return r.nearest=w.sent(),[4,a.util.runAsyncTask("Initializing UMAP...",function(){var x=u.nearest.map(function(y){return y.map(function(B){return B.index})}),A=u.nearest.map(function(y){return y.map(function(B){return B.dist})});return u.umap.initializeFit(t,x,A)},"umap-optimization")];case 2:return v=w.sent(),[2,new Promise(function(x,A){function y(){for(var B=Math.min(n,v-m),F=0;F<B;F++)m=u.umap.step();a.util.runAsyncTask("Optimizing UMAP (epoch "+m+" of "+
+p).then(function(r){q.nearest=r;a.util.runAsyncTask("Starte T-SNE...",function(){q.tsne.initDataDist(q.nearest)}).then(n)})};g.prototype.projectUmap=function(h,k,l){xc(this,void 0,void 0,function(){var m,n,q,p,t,r,v,u=this;return yc(this,function(w){switch(w.label){case 0:return this.hasUmapRun=!0,this.umap=new UMAP({nComponents:h,nNeighbors:k}),m=0,n=10,q=this.shuffledDataIndices.slice(0,a.UMAP_SAMPLE_SIZE),p=q.map(function(x){return u.points[x]}),t=p.map(function(x){return Array.from(x.vector)}),
+r=this,[4,this.computeKnn(p,k)];case 1:return r.nearest=w.sent(),[4,a.util.runAsyncTask("Starte UMAP...",function(){var x=u.nearest.map(function(y){return y.map(function(B){return B.index})}),A=u.nearest.map(function(y){return y.map(function(B){return B.dist})});return u.umap.initializeFit(t,x,A)},"umap-optimization")];case 2:return v=w.sent(),[2,new Promise(function(x,A){function y(){for(var B=Math.min(n,v-m),F=0;F<B;F++)m=u.umap.step();a.util.runAsyncTask("Lerne UMAP (Durchlauf "+m+" von "+
 v+")",function(){if(m<v)requestAnimationFrame(y);else{var K=u.umap.getEmbedding();q.forEach(function(L,N){L=u.points[L];L.projections["umap-0"]=K[N][0];L.projections["umap-1"]=K[N][1];3===h&&(L.projections["umap-2"]=K[N][2])});u.projections.umap=!0;a.logging.setModalMessage(null,"umap-optimization");u.hasUmapRun=!0;l(m);x()}},"umap-optimization",0).catch(function(K){a.logging.setModalMessage(null,"umap-optimization");A(K)})}requestAnimationFrame(y)})]}})})};g.prototype.computeKnn=function(h,k){return xc(this,
 void 0,void 0,function(){var l;return yc(this,function(m){switch(m.label){case 0:return null!=this.nearest&&k<=this.nearest.length?[2,Promise.resolve(this.nearest)]:[3,1];case 1:return[4,d?a.knn.findKNNGPUCosine(h,k,function(n){return n.vector}):a.knn.findKNN(h,k,function(n){return n.vector},function(n,q){return a.vector.cosDistNorm(n,q)})];case 2:return this.nearest=l=m.sent(),[2,Promise.resolve(l)]}})})};g.prototype.perturbTsne=function(){var h=this;if(this.hasTSNERun&&this.tsne){this.tsne.perturb();
 var k=this.tsne.getDim(),l=this.tsne.getSolution();this.shuffledDataIndices.slice(0,a.TSNE_SAMPLE_SIZE).forEach(function(m,n){m=h.points[m];m.projections["tsne-0"]=l[n*k];m.projections["tsne-1"]=l[n*k+1];3===k&&(m.projections["tsne-2"]=l[n*k+2])})}};g.prototype.setSupervision=function(h,k){var l=this;if(null!=h){var m=this.shuffledDataIndices.slice(0,a.TSNE_SAMPLE_SIZE),n=Array(m.length);m.forEach(function(q,p){return n[p]=l.points[q].metadata[h].toString()});this.superviseLabels=n}null!=k&&(this.superviseInput=
@@ -10354,20 +10349,20 @@ break;case "tsne":h=[0,1];g.tSNEis3d&&h.push(2);break;case "umap":h=[0,1];g.umap
 <script>//~~WEBPATH~~/vz-projector/data-provider.js
 (function(a){function b(k,l,m,n){void 0===m&&(m=1E6);void 0===n&&(n="\n");return new Promise(function(q){function p(u,w){u=new Blob([k.slice(u,u+w)]);w=new FileReader;w.onload=function(x){x=x.target.result;t+=m;x=x.split(n);var A=v+x[0];if(1===x.length)v=A,p(t,m);else{v=x[x.length-1];l(A);for(A=1;A<x.length-1;A++)l(x[A]);t>=r?(v&&l(v),q()):p(t,m)}};w.readAsText(u)}var t=0,r=k.byteLength-1,v="";p(t,m)})}function c(k,l){void 0===l&&(l="\t");a.logging.setModalMessage("Parsing tensors...",a.TENSORS_MSG_ID);
 return new Promise(function(m){var n=[],q;b(k,function(p){p=p.trim();if(""!==p){p=p.split(l);var t={metadata:{},vector:null,index:n.length,projections:null};isNaN(p[0])||q===p.length-1?(t.metadata.label=p[0],t.vector=new Float32Array(p.slice(1).map(Number))):t.vector=new Float32Array(p.map(Number));n.push(t);null==q&&(q=t.vector.length);if(q!==t.vector.length)throw a.logging.setModalMessage("Parsing failed. Vector dimensions do not match"),Error("Parsing failed");if(1>=q)throw a.logging.setModalMessage("Parsing failed. Found a vector with only one dimension?"),
-Error("Parsing failed");}}).then(function(){a.logging.setModalMessage(null,a.TENSORS_MSG_ID);m(n)})})}function d(k,l){return a.util.runAsyncTask("Parsing tensors...",function(){for(var m=k.length/l,n=[],q=0,p=0;p<m;++p)n.push({metadata:{},vector:k.subarray(q,q+l),index:p,projections:null}),q+=l;return n},a.TENSORS_MSG_ID).then(function(m){a.logging.setModalMessage(null,a.TENSORS_MSG_ID);return m})}function e(k,l){var m=k.map(function(q){return{name:q,isNumeric:!0,tooManyUniqueValues:!1,min:Number.POSITIVE_INFINITY,
+Error("Parsing failed");}}).then(function(){a.logging.setModalMessage(null,a.TENSORS_MSG_ID);m(n)})})}function d(k,l){return a.util.runAsyncTask("Lade Daten...",function(){for(var m=k.length/l,n=[],q=0,p=0;p<m;++p)n.push({metadata:{},vector:k.subarray(q,q+l),index:p,projections:null}),q+=l;return n},a.TENSORS_MSG_ID).then(function(m){a.logging.setModalMessage(null,a.TENSORS_MSG_ID);return m})}function e(k,l){var m=k.map(function(q){return{name:q,isNumeric:!0,tooManyUniqueValues:!1,min:Number.POSITIVE_INFINITY,
 max:Number.NEGATIVE_INFINITY}}),n=k.map(function(){return{}});l.forEach(function(q){k.forEach(function(p,t){var r=m[t];t=n[t];var v=q[p];null!=v&&(r.tooManyUniqueValues||(v in t?t[v]++:t[v]=1,50<Object.keys(t).length&&(r.tooManyUniqueValues=!0)),isNaN(v)?r.isNumeric=!1:(q[p]=+v,r.min=Math.min(r.min,+v),r.max=Math.max(r.max,+v)))})});m.forEach(function(q,p){q.uniqueEntries=Object.keys(n[p]).map(function(t){return{label:t,count:n[p][t]}})});return m}function g(k){a.logging.setModalMessage("Parsing metadata...",
 a.METADATA_MSG_ID);return new Promise(function(l){var m=[],n=!1,q=0,p=["label"];b(k,function(t){if(0!==t.trim().length){if(0===q&&(n=0<=t.indexOf("\t"))){p=t.split("\t");q++;return}q++;var r=t.split("\t"),v={};m.push(v);p.forEach(function(u,w){w=r[w];v[u]=""===w?null:w})}}).then(function(){a.logging.setModalMessage(null,a.METADATA_MSG_ID);l({stats:e(p,m),pointsInfo:m})})})}function h(k){return new Promise(function(l,m){var n=new Image;n.onload=function(){return l(n)};n.onerror=function(q){return m(q)};
-n.crossOrigin="";n.src=k})}a.METADATA_MSG_ID="metadata";a.TENSORS_MSG_ID="tensors";a.retrieveTensorAsBytes=function(k,l,m){a.logging.setModalMessage("Fetching tensor values...",a.TENSORS_MSG_ID);var n=new XMLHttpRequest;n.open("GET",l);n.responseType="arraybuffer";n.onprogress=function(q){q.lengthComputable&&a.logging.setModalMessage("Fetching tensor values: "+(100*q.loaded/q.total).toFixed(1)+"%",a.TENSORS_MSG_ID)};n.onload=function(){if(200!==n.status){var q=String.fromCharCode.apply(null,new Uint8Array(n.response));
+n.crossOrigin="";n.src=k})}a.METADATA_MSG_ID="metadata";a.TENSORS_MSG_ID="tensors";a.retrieveTensorAsBytes=function(k,l,m){a.logging.setModalMessage("Fetching tensor values...",a.TENSORS_MSG_ID);var n=new XMLHttpRequest;n.open("GET",l);n.responseType="arraybuffer";n.onprogress=function(q){q.lengthComputable&&a.logging.setModalMessage("Lade Daten: "+(100*q.loaded/q.total).toFixed(1)+"%",a.TENSORS_MSG_ID)};n.onload=function(){if(200!==n.status){var q=String.fromCharCode.apply(null,new Uint8Array(n.response));
 a.logging.setErrorMessage(q,"fetching tensors")}else{try{q=new Float32Array(n.response)}catch(r){a.logging.setErrorMessage(r,"parsing tensor bytes");return}var p=k.tensorShape[1],t=q.length/p;k.tensorShape[0]>t&&a.logging.setWarningMessage("Showing the first "+t.toLocaleString()+(" of "+k.tensorShape[0].toLocaleString()+" data points"));d(q,p).then(function(r){m(new a.DataSet(r))})}};n.send()};a.parseRawTensors=function(k,l){c(k).then(function(m){l(new a.DataSet(m))})};a.parseRawMetadata=function(k,
 l){g(k).then(function(m){return l(m)})};a.parseTensors=c;a.parseTensorsFromFloat32Array=d;a.analyzeMetadata=e;a.parseMetadata=g;a.fetchImage=h;a.retrieveSpriteAndMetadataInfo=function(k,l,m,n){var q=Promise.resolve({});k&&(q=new Promise(function(r,v){a.logging.setModalMessage("Fetching metadata...",a.METADATA_MSG_ID);var u=new XMLHttpRequest;u.open("GET",k);u.responseType="arraybuffer";u.onreadystatechange=function(){if(4===u.readyState)if(200===u.status)r(g(u.response));else{var w=new FileReader;
-w.onload=function(){a.logging.setErrorMessage(w.result,"fetching metadata");v()};w.readAsText(new Blob([u.response]))}};u.send(null)}));var p=null,t=null;l&&(p=a.logging.setModalMessage("Fetching sprite image..."),t=h(l));Promise.all([q,t]).then(function(r){p&&a.logging.setModalMessage(null,p);var v=r[0];if((r=r[1])&&(8192<r.height||8192<r.width))a.logging.setModalMessage("Error: Sprite image of dimensions "+r.width+"px x "+(r.height+"px exceeds maximum dimensions ")+"8192px x 8192px");else{v.spriteImage=
+w.onload=function(){a.logging.setErrorMessage(w.result,"fetching metadata");v()};w.readAsText(new Blob([u.response]))}};u.send(null)}));var p=null,t=null;l&&(p=a.logging.setModalMessage("Lade Vorschaubilder..."),t=h(l));Promise.all([q,t]).then(function(r){p&&a.logging.setModalMessage(null,p);var v=r[0];if((r=r[1])&&(8192<r.height||8192<r.width))a.logging.setModalMessage("Error: Sprite image of dimensions "+r.width+"px x "+(r.height+"px exceeds maximum dimensions ")+"8192px x 8192px");else{v.spriteImage=
 r;v.spriteMetadata=m;try{n(v)}catch(u){a.logging.setModalMessage(String(u))}}})}})(wc||(wc={}));
 </script>
 <script>//~~WEBPATH~~/vz-projector/data-provider-demo.js
-(function(a){var b=function(){function c(d){this.projectorConfigPath=d}c.prototype.getEmbeddingInfo=function(d){for(var e=this.projectorConfig.embeddings,g=0;g<e.length;g++){var h=e[g];if(h.tensorName===d)return h}return null};c.prototype.retrieveRuns=function(d){d(["Demo"])};c.prototype.retrieveProjectorConfig=function(d,e){var g=this,h=a.logging.setModalMessage("Fetching projector config..."),k=new XMLHttpRequest;k.open("GET",this.projectorConfigPath);k.onerror=function(l){l=l.message;null!=k.responseText&&
+(function(a){var b=function(){function c(d){this.projectorConfigPath=d}c.prototype.getEmbeddingInfo=function(d){for(var e=this.projectorConfig.embeddings,g=0;g<e.length;g++){var h=e[g];if(h.tensorName===d)return h}return null};c.prototype.retrieveRuns=function(d){d(["Demo"])};c.prototype.retrieveProjectorConfig=function(d,e){var g=this,h=a.logging.setModalMessage("Lade App-Konfiguration..."),k=new XMLHttpRequest;k.open("GET",this.projectorConfigPath);k.onerror=function(l){l=l.message;null!=k.responseText&&
 (l="Cannot fetch projector config, possibly a Cross-Origin request error.");a.logging.setErrorMessage(l,"fetching projector config")};k.onload=function(){var l=JSON.parse(k.responseText);a.logging.setModalMessage(null,h);g.projectorConfig=l;e(l)};k.send()};c.prototype.retrieveTensor=function(d,e,g){d=this.getEmbeddingInfo(e);var h=""+d.tensorPath;if(".bytes"===d.tensorPath.substr(-6))a.retrieveTensorAsBytes(this.getEmbeddingInfo(e),h,g);else{a.logging.setModalMessage("Fetching tensors...",a.TENSORS_MSG_ID);
 var k=new XMLHttpRequest;k.open("GET",h);k.responseType="arraybuffer";k.onerror=function(){a.logging.setErrorMessage(k.responseText,"fetching tensors")};k.onload=function(){a.parseTensors(k.response).then(function(l){g(new a.DataSet(l))})};k.send()}};c.prototype.retrieveSpriteAndMetadata=function(d,e,g){d=this.getEmbeddingInfo(e);e=null;d.sprite&&d.sprite.imagePath&&(e=d.sprite.imagePath);a.retrieveSpriteAndMetadataInfo(d.metadataPath,e,d.sprite,g)};c.prototype.getBookmarks=function(d,e,g){d=this.getEmbeddingInfo(e);
-var h=a.logging.setModalMessage("Fetching bookmarks..."),k=new XMLHttpRequest;k.open("GET",d.bookmarksPath);k.onerror=function(){a.logging.setErrorMessage(k.responseText)};k.onload=function(){var l=JSON.parse(k.responseText);a.logging.setModalMessage(null,h);g(l)};k.send()};return c}();a.DemoDataProvider=b})(wc||(wc={}));
+var h=a.logging.setModalMessage("Lade Lesezeichen..."),k=new XMLHttpRequest;k.open("GET",d.bookmarksPath);k.onerror=function(){a.logging.setErrorMessage(k.responseText)};k.onload=function(){var l=JSON.parse(k.responseText);a.logging.setModalMessage(null,h);g(l)};k.send()};return c}();a.DemoDataProvider=b})(wc||(wc={}));
 </script>
 <script>//~~WEBPATH~~/vz-projector/data-provider-proto.js
 (function(a){var b=function(){function c(d){this.dataProto=d}c.prototype.retrieveRuns=function(d){d(["proto"])};c.prototype.retrieveProjectorConfig=function(d,e){e({modelCheckpointPath:"proto",embeddings:[{tensorName:"proto",tensorShape:this.dataProto.shape,metadataPath:"proto"}]})};c.prototype.retrieveTensor=function(d,e,g){g(this.flatArrayToDataset(this.dataProto.tensor))};c.prototype.retrieveSpriteAndMetadata=function(d,e,g){var h=this,k=this.dataProto.metadata.columns.map(function(n){return n.name}),
@@ -11397,7 +11392,7 @@ paper-dropdown-menu paper-item {
 <div class="container">
   
   <template is="dom-if" if="[[_hasChoices(runNames)]]">
-    <paper-dropdown-menu no-animations label="[[_getNumRunsLabel(runNames)]] found">
+    <paper-dropdown-menu no-animations label="[[_getNumRunsLabel(runNames)]] gefunden">
       <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedRun}}" slot="dropdown-content">
         <template is="dom-repeat" items="[[runNames]]">
           <paper-item value="[[item]]" label="[[item]]">
@@ -11410,7 +11405,7 @@ paper-dropdown-menu paper-item {
 
   <template is="dom-if" if="[[tensorNames]]">
     
-    <paper-dropdown-menu no-animations label="[[_getNumTensorsLabel(tensorNames)]] found">
+    <paper-dropdown-menu no-animations label="[[_getNumTensorsLabel(tensorNames)]] gefunden">
       <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedTensor}}" slot="dropdown-content">
         <template is="dom-repeat" items="[[tensorNames]]">
           <paper-item value="[[item.name]]" label="[[item.name]]">
@@ -11618,15 +11613,14 @@ paper-dropdown-menu paper-item {
     </paper-dialog>
   </div>
   <paper-checkbox id="normalize-data-checkbox" checked="{{normalizeData}}">
-    Sphereize data
+    Daten sphärisch darstellen
     <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
     <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
-      The data is normalized by shifting each point by the centroid and making
-      it unit norm.
+        Die Daten werden normalisiert, indem jeder Punkt um den Mittelwert verschoben zur Länge eins normiert werden.
     </paper-tooltip>
   </paper-checkbox>
   <div class="dirs">
-    <table>
+    <table style="visibility: hidden;">
       <tr>
         <td>Checkpoint:</td>
         <td><span id="checkpoint-file"></span></td>
@@ -11649,9 +11643,9 @@ var k=this.querySelector("#force-categorical-checkbox");k.addEventListener("chan
 this.metadataFile);this._selectedColorOptionNameChanged()};d.prototype.getSeparatorClass=function(e){return e?"separator":null};d.prototype.metadataChanged=function(e,g){var h=this;this.spriteAndMetadata=e;null!=g&&(this.metadataFile=g);this.updateMetadataUI(this.spriteAndMetadata.stats,this.metadataFile);if(null==this.selectedColorOptionName||0===this.colorOptions.filter(function(l){return l.name===h.selectedColorOptionName}).length)this.selectedColorOptionName=this.colorOptions[0].name;var k=-1;
 this.metadataFields=e.stats.map(function(l,m){l.isNumeric||-1!==k||(k=m);return l.name});if(null==this.metadataEditorColumn||0===this.metadataFields.filter(function(l){return l===h.metadataEditorColumn}).length)this.metadataEditorColumn=this.metadataFields[Math.max(0,k)];if(null==this.superviseColumn||0===this.metadataFields.filter(function(l){return l===h.superviseColumn}).length)this.superviseColumn=this.metadataFields[Math.max(0,k)],this.superviseInput="";this.superviseInputChange()};d.prototype.projectionChanged=
 function(e){if(e)switch(e.projectionType){case "tsne":this.set("showSuperviseSettings",!0);break;default:this.set("showSuperviseSettings",!1)}};d.prototype.onProjectorSelectionChanged=function(e,g){this.selectedPointIndices=e;this.neighborsOfFirstPoint=g;this.metadataEditorInputChange()};d.prototype.addWordBreaks=function(e){return null==e?"":e.replace(/([\/=-_,])/g,"$1\x3cwbr\x3e")};d.prototype.updateMetadataUI=function(e,g){var h=this,k=this.querySelector("#metadata-file");k.innerHTML=this.addWordBreaks(g);
-k.title=g;var l=-1;this.labelOptions=e.map(function(m,n){m.isNumeric||-1!==l||(l=n);return m.name});if(null==this.selectedLabelOption||0===this.labelOptions.filter(function(m){return m===h.selectedLabelOption}).length)this.selectedLabelOption=this.labelOptions[Math.max(0,l)];if(null==this.metadataEditorColumn||0===this.labelOptions.filter(function(m){return m===h.metadataEditorColumn}).length)this.metadataEditorColumn=this.labelOptions[Math.max(0,l)];g=[{name:"No color map"}];e=e.filter(function(m){return!m.tooManyUniqueValues||
-m.isNumeric}).map(function(m){if(h.forceCategoricalColoring||!m.tooManyUniqueValues){var n=d3.scaleOrdinal(d3.schemeCategory10);var q=n.range();var p=q.map(function(v,u){return q[3*u%q.length]});var t=m.uniqueEntries;n.range(p).domain(t.map(function(v){return v.label}));p=m.uniqueEntries.length;p=p+" "+(p>q.length?" non-unique":"")+" colors"}else{var r=[{color:"#ffffdd",value:m.min},{color:"#1f2d86",value:m.max}];n=d3.scaleLinear().domain(r.map(function(v){return v.value})).range(r.map(function(v){return v.color}));
-p="gradient"}return{name:m.name,desc:p,map:n,items:t,thresholds:r,tooManyUniqueValues:m.tooManyUniqueValues}});0<e.length&&g.push({name:"Metadata",isSeparator:!0});this.colorOptions=g.concat(e)};d.prototype.metadataEditorContext=function(e){this.metadataEditorButtonDisabled=!e;this.projector&&this.projector.metadataEditorContext(e,this.metadataEditorColumn)};d.prototype.metadataEditorInputChange=function(){var e=this.metadataEditorColumn,g=this.metadataEditorInput,h=this.selectedPointIndices.length+
+k.title=g;var l=-1;this.labelOptions=e.map(function(m,n){m.isNumeric||-1!==l||(l=n);return m.name});if(null==this.selectedLabelOption||0===this.labelOptions.filter(function(m){return m===h.selectedLabelOption}).length)this.selectedLabelOption=this.labelOptions[Math.max(0,l)];if(null==this.metadataEditorColumn||0===this.labelOptions.filter(function(m){return m===h.metadataEditorColumn}).length)this.metadataEditorColumn=this.labelOptions[Math.max(0,l)];g=[{name:"Keine Färbung"}];e=e.filter(function(m){return!m.tooManyUniqueValues||
+m.isNumeric}).map(function(m){if(h.forceCategoricalColoring||!m.tooManyUniqueValues){var n=d3.scaleOrdinal(d3.schemeCategory10);var q=n.range();var p=q.map(function(v,u){return q[3*u%q.length]});var t=m.uniqueEntries;n.range(p).domain(t.map(function(v){return v.label}));p=m.uniqueEntries.length;p=p+" "+(p>q.length?" Kategorien als":"")+" Farbe"}else{var r=[{color:"#ffffdd",value:m.min},{color:"#1f2d86",value:m.max}];n=d3.scaleLinear().domain(r.map(function(v){return v.value})).range(r.map(function(v){return v.color}));
+p="gradient"}return{name:m.name,desc:p,map:n,items:t,thresholds:r,tooManyUniqueValues:m.tooManyUniqueValues}});0<e.length&&g.push({name:"Verfügbare Färbungen",isSeparator:!0});this.colorOptions=g.concat(e)};d.prototype.metadataEditorContext=function(e){this.metadataEditorButtonDisabled=!e;this.projector&&this.projector.metadataEditorContext(e,this.metadataEditorColumn)};d.prototype.metadataEditorInputChange=function(){var e=this.metadataEditorColumn,g=this.metadataEditorInput,h=this.selectedPointIndices.length+
 this.neighborsOfFirstPoint.length;0<h?null!=g&&""!==g.trim()?this.spriteAndMetadata.stats.filter(function(k){return k.name===e})[0].isNumeric&&isNaN(+g)?(this.metadataEditorInputLabel="Label must be numeric",this.metadataEditorContext(!1)):(0===this.projector.dataSet.points.filter(function(k){return k.metadata[e].toString()===g.trim()}).length?this.metadataEditorInputLabel="Tag "+h+" with new label":this.metadataEditorInputLabel="Tag "+h+" points as",this.metadataEditorContext(!0)):(this.metadataEditorInputLabel=
 "Tag selection as",this.metadataEditorContext(!1)):(this.metadataEditorContext(!1),null!=g&&""!==g.trim()?this.metadataEditorInputLabel="Select points to tag":this.metadataEditorInputLabel="Tag selection as")};d.prototype.metadataEditorInputKeydown=function(e){13===e.keyCode&&this.metadataEditorButtonClicked();e.stopPropagation()};d.prototype.metadataEditorColumnChange=function(){this.metadataEditorInputChange()};d.prototype.metadataEditorButtonClicked=function(){if(!this.metadataEditorButtonDisabled){var e=
 this.metadataEditorInput.trim(),g=this.selectedPointIndices.length+this.neighborsOfFirstPoint.length;this.projector.metadataEdit(this.metadataEditorColumn,e);this.projector.metadataEditorContext(!0,this.metadataEditorColumn);this.metadataEditorInputLabel=g+" labeled as '"+e+"'"}};d.prototype.downloadMetadataClicked=function(){if(this.projector&&this.projector.dataSet&&this.projector.dataSet.spriteAndMetadataInfo){var e=this.projector.dataSet.spriteAndMetadataInfo.stats.map(function(h){return h.name}).join("\t");
@@ -12415,13 +12409,13 @@ a.preventDefault())},_changeValue:function(a){this.value=a.target.value;this.fir
 <template>
 <div class="container">
   <div class="buttons">
-    <button class="button reset-filter">Show All Data</button>
-    <button class="button set-filter">Isolate selection</button>
-    <button class="button clear-selection">Clear selection</button>
+    <button class="button reset-filter">Alles anzeigen</button>
+    <button class="button set-filter">Isoliert anzeigen</button>
+    <button class="button clear-selection">Auswahl aufheben</button>
   </div>
   <div class="search-by">
-    <vz-projector-input id="search-box" label="Search"></vz-projector-input>
-    <paper-dropdown-menu no-animations label="by">
+    <vz-projector-input id="search-box" label="Suche"></vz-projector-input>
+    <paper-dropdown-menu no-animations label="bei">
       <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedMetadataField}}" slot="dropdown-content">
         <template is="dom-repeat" items="[[metadataFields]]">
           <paper-item value="[[item]]" label="[[item]]">
@@ -12437,23 +12431,23 @@ a.preventDefault())},_changeValue:function(a){this.value=a.target.value;this.fir
     <div class="neighbors">
       <div class="neighbors-options">
         <div class="slider num-nn">
-          <span class="option-label">neighbors</span>
+          <span class="option-label">Nachbarn</span>
           <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
           <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
-            The number of neighbors (in the original space) to show when clicking on a point.
+            Die Anzahl der Nachbarn (im ursprünglichen Raum), die beim Klicken auf einen Punkt angezeigt werden sollen.
           </paper-tooltip>
           <paper-slider class="nn-slider" pin min="5" max="999" editable value="{{numNN}}" on-change="updateNumNN"></paper-slider>
         </div>
       </div>
       <div class="distance">
-        <span class="option-label">distance</span>
+        <span class="option-label">Distanz</span>
         <div class="options">
-          <a class="selected cosine" href="javascript:void(0);">COSINE</a>
-          <a class="euclidean" href="javascript:void(0);">EUCLIDEAN</a>
+          <a class="selected cosine" href="javascript:void(0);">Kosinus-Ähnlichkeit</a><br>
+          <a class="euclidean" href="javascript:void(0);">Euklidischer Abstand</a>
         </div>
       </div>
     </div>
-    <p>Nearest points in the original space:
+    <p>Nächstgelegene Lieder im Datenraum: 
     <div class="nn-list"></div>
   </div>
   <div class="metadata-info" style="display: none">
@@ -12490,7 +12484,7 @@ l.appendChild(q);p.onclick=function(){h.projector.metadataEdit(g,n.label)}})}}};
 t=document.createElement("a");t.className="label";t.title=p;t.innerText=p;t.onmouseenter=function(){g.projectorEventContext.notifyHoverOverPoint(q)};t.onmouseleave=function(){g.projectorEventContext.notifyHoverOverPoint(null)};t.onclick=function(){g.projectorEventContext.notifySelectionChanged([q])};n.appendChild(t);h.appendChild(n)},l=this,m=0;m<e.length;m++)k(m)}};d.prototype.getLabelFromIndex=function(e){return this.projector.dataSet.points[e].metadata[this.selectedMetadataField].toString()};d.prototype.updateNeighborsList=
 function(e){var g=this,h=this.querySelector(".nn-list");h.innerHTML="";if(0===e.length)this.removeContext(".nn");else{this.addContext(".nn");this.searchBox.message="";for(var k=0<e.length?e[0].dist:0,l=function(q){var p=e[q];q=document.createElement("div");q.className="neighbor";var t=document.createElement("a");t.className="neighbor-link";t.title=m.getLabelFromIndex(p.index);var r=document.createElement("div");r.className="label-and-value";var v=document.createElement("div");v.className="label";
 v.style.color=a.dist2color(m.distFunc,p.dist,k);v.innerText=m.getLabelFromIndex(p.index);var u=document.createElement("div");u.className="value";u.innerText=p.dist.toFixed(3);r.appendChild(v);r.appendChild(u);v=document.createElement("div");v.className="bar";u=document.createElement("div");u.className="fill";u.style.borderTopColor=a.dist2color(m.distFunc,p.dist,k);u.style.width=100*a.normalizeDist(m.distFunc,p.dist,k)+"%";v.appendChild(u);for(u=1;4>u;u++){var w=document.createElement("div");w.className=
-"tick";w.style.left=100*u/4+"%";v.appendChild(w)}t.appendChild(r);t.appendChild(v);q.appendChild(t);h.appendChild(q);t.onmouseenter=function(){g.projectorEventContext.notifyHoverOverPoint(p.index)};t.onmouseleave=function(){g.projectorEventContext.notifyHoverOverPoint(null)};t.onclick=function(){g.projectorEventContext.notifySelectionChanged([p.index])}},m=this,n=0;n<e.length;n++)l(n)}};d.prototype.updateFilterButtons=function(e){1<e?(this.setFilterButton.innerText="Isolate "+e+" points",this.setFilterButton.disabled=
+"tick";w.style.left=100*u/4+"%";v.appendChild(w)}t.appendChild(r);t.appendChild(v);q.appendChild(t);h.appendChild(q);t.onmouseenter=function(){g.projectorEventContext.notifyHoverOverPoint(p.index)};t.onmouseleave=function(){g.projectorEventContext.notifyHoverOverPoint(null)};t.onclick=function(){g.projectorEventContext.notifySelectionChanged([p.index])}},m=this,n=0;n<e.length;n++)l(n)}};d.prototype.updateFilterButtons=function(e){1<e?(this.setFilterButton.innerText="Isoliere "+e+"  Lieder",this.setFilterButton.disabled=
 null,this.clearSelectionButton.disabled=null):(this.setFilterButton.disabled=!0,this.clearSelectionButton.disabled=!0)};d.prototype.setupUI=function(e){var g=this;this.distFunc=a.vector.cosDist;var h=this.querySelector(".distance a.euclidean");h.onclick=function(){for(var l=g.querySelectorAll(".distance a"),m=0;m<l.length;m++)a.util.classed(l[m],"selected",!1);a.util.classed(h,"selected",!0);g.distFunc=a.vector.dist;g.projectorEventContext.notifyDistanceMetricChanged(g.distFunc);l=e.dataSet.findNeighbors(g.selectedPointIndices[0],
 g.distFunc,g.numNN);g.updateNeighborsList(l)};var k=this.querySelector(".distance a.cosine");k.onclick=function(){for(var l=g.querySelectorAll(".distance a"),m=0;m<l.length;m++)a.util.classed(l[m],"selected",!1);a.util.classed(k,"selected",!0);g.distFunc=a.vector.cosDist;g.projectorEventContext.notifyDistanceMetricChanged(g.distFunc);l=e.dataSet.findNeighbors(g.selectedPointIndices[0],g.distFunc,g.numNN);g.updateNeighborsList(l)};this.searchBox.registerInputChangedListener(function(l,m){null==l||
 ""===l.trim()?(g.searchBox.message="",g.projectorEventContext.notifySelectionChanged([])):(l=e.dataSet.query(l,m,g.selectedMetadataField),g.searchBox.message=0===l.length?"0 matches.":l.length+" matches.",g.projectorEventContext.notifySelectionChanged(l))});this.setFilterButton.onclick=function(){var l=g.selectedPointIndices.concat(g.neighborsOfFirstPoint.map(function(m){return m.index}));e.filterDataset(l);g.enableResetFilterButton(!0);g.updateFilterButtons(0)};this.resetFilterButton.onclick=function(){e.resetFilterDataset();
@@ -12731,19 +12725,19 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
   <div class="ink-panel-header">
     <div class="ink-tab-group">
 
-      <div data-tab="umap" id="umap-tab" class="ink-tab projection-tab">UMAP</div>
+      <div data-tab="umap" id="umap-tab" class="ink-tab projection-tab" style="visibility:None;">UMAP</div>
       <paper-tooltip for="umap-tab" position="bottom" animation-delay="0" fit-to-visible-bounds>
         uniform manifold approximation and projection
       </paper-tooltip>      
 
       <div data-tab="tsne" id="tsne-tab" class="ink-tab projection-tab">t-SNE</div>
       <paper-tooltip for="tsne-tab" position="bottom" animation-delay="0" fit-to-visible-bounds>
-        t-distributed stochastic neighbor embedding
+        t-verteilte stochastische Nachbarschaftseinbettung
       </paper-tooltip>
 
       <div data-tab="pca" id="pca-tab" class="ink-tab projection-tab">PCA</div>
       <paper-tooltip for="pca-tab" position="bottom" animation-delay="0" fit-to-visible-bounds>
-        Principal component analysis
+        Hauptkomponentenanalyse
       </paper-tooltip>
 
       <div data-tab="custom" id="custom-tab" style="display:None" class="ink-tab projection-tab" title="Linear projection of two custom vectors">Custom</div>
@@ -12757,7 +12751,7 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
      
      <div data-panel="umap" class="ink-panel-content">
       <div class="slider">
-        <label>Dimension</label>
+        <label>Darstellung</label>
         <div class="two-way-toggle">
           <span>2D</span>
           <paper-toggle-button id="umap-toggle" checked="{{umapIs3d}}">3D</paper-toggle-button>
@@ -12792,7 +12786,7 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
     
     <div data-panel="tsne" class="ink-panel-content">
       <div class="slider">
-        <label>Dimension</label>
+        <label>Darstellung</label>
         <div class="two-way-toggle">
           <span>2D</span>
           <paper-toggle-button id="tsne-toggle" checked="{{tSNEis3d}}">3D</paper-toggle-button>
@@ -12803,10 +12797,9 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
           Perplexity
           <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
           <paper-tooltip position="right" animation-delay="0" fit-to-visible-bounds>
-            The most appropriate perplexity value depends on the density of the
-            data. Loosely speaking, a larger / denser dataset
-            requires a larger perplexity. Typical values for perplexity range
-            between 5 and 50.
+            Dieser Parameter definiert das Verhältnis von lokalen und globen Strukturen der Musik. 
+            Typische Werte für die Perplexität liegen
+            zwischen 5 und 50.
           </paper-tooltip>
         </label>
         <paper-slider id="perplexity-slider" pin min="2" max="100" value="30"></paper-slider>
@@ -12814,11 +12807,10 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
       </div>
       <div class="slider tsne-learning-rate">
         <label>
-          Learning rate
+          Lernrate
           <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
           <paper-tooltip position="right" animation-delay="0" fit-to-visible-bounds>
-            The ideal learning rate often depends on the size of the data,
-            with smaller datasets requiring smaller learning rates.
+            Die Lernrate definiert wie wichtig ein einzelner Durchlauf vom Algorithmus ist. 
           </paper-tooltip>
         </label>
         <paper-slider id="learning-rate-slider" snaps min="-3" max="2" step="1" value="1" max-markers="6">
@@ -12827,11 +12819,11 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
       </div>
       <div class="slider tsne-supervise-factor">
         <label>
-          Supervise
+          Kategorie-Relevanz
           <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
           <paper-tooltip position="right" animation-delay="0" fit-to-visible-bounds>
-            The label importance used for supervision, from 0 (disabled) to 100
-            (full importance).
+            Relevanz der oben spezifizierten Musik-Kategorie, wie beispielsweise Künstler oder Album beim Lernprozess. Von 0 (deaktiviert) bis 100
+            (sehr).
           </paper-tooltip>
         </label>
         <paper-slider id="supervise-factor-slider" min="0" max="100" pin value="{{superviseFactor}}">
@@ -12839,18 +12831,18 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
         <span></span>
       </div>
       <p>
-        <button class="run-tsne ink-button" title="Re-run t-SNE">Run</button>
+        <button class="run-tsne ink-button" title="Re-run t-SNE">Start</button>
         <button class="pause-tsne ink-button" title="Pause t-SNE">Pause</button>
-        <button class="perturb-tsne ink-button" title="Perturb t-SNE">Perturb</button>
+        <button class="perturb-tsne ink-button" title="Perturb t-SNE">Mischen</button>
       
-      <p>Iteration: <span class="run-tsne-iter">0</span>
+      <p>Durchlauf: <span class="run-tsne-iter">0</span>
       <p id="tsne-sampling" class="notice">
         For faster results, the data will be sampled down to [[getTsneSampleSizeText()]] points.
       
       <p>
         <iron-icon icon="book" class="book-icon"></iron-icon>
         <a target="_blank" href="http://distill.pub/2016/misread-tsne/">
-          How to use t-SNE effectively.
+         Einführung T-SNE
         </a>
       
     </div>
@@ -12858,11 +12850,11 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
     <div data-panel="pca" class="ink-panel-content">
       <div class="two-columns">
         <div> 
-          <paper-dropdown-menu class="pca-dropdown" vertical-align="bottom" no-animations label="X">
+          <paper-dropdown-menu class="pca-dropdown" vertical-align="bottom" no-animations label="X (Blau)">
             <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{pcaX}}" slot="dropdown-content">
               <paper-item disabled class="dropdown-item header">
                   <div>#</div>
-                  <div>Variance (%)</div>
+                  <div>Varianz (%)</div>
               </paper-item>
               <template is="dom-repeat" items="[[pcaComponents]]">
                 <paper-item class="dropdown-item" value="[[item.id]]" label="Component #[[item.componentNumber]]">
@@ -12872,11 +12864,11 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
               </template>
             </paper-listbox>
           </paper-dropdown-menu>
-          <paper-dropdown-menu class="pca-dropdown" no-animations vertical-align="bottom" label="Z" disabled="[[!hasPcaZ]]" id="z-dropdown">
+          <paper-dropdown-menu class="pca-dropdown" no-animations vertical-align="bottom" label="Z (Grün)" disabled="[[!hasPcaZ]]" id="z-dropdown">
             <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{pcaZ}}" slot="dropdown-content">
               <paper-item disabled class="dropdown-item header">
                   <div>#</div>
-                  <div>Variance (%)</div>
+                  <div>Varianz (%)</div>
               </paper-item>
               <template is="dom-repeat" items="[[pcaComponents]]">
                 <paper-item class="dropdown-item" value="[[item.id]]" label="Component #[[item.componentNumber]]">
@@ -12888,11 +12880,11 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
           </paper-dropdown-menu>
         </div>
         <div> 
-          <paper-dropdown-menu class="pca-dropdown" vertical-align="bottom" no-animations label="Y">
+          <paper-dropdown-menu class="pca-dropdown" vertical-align="bottom" no-animations label="Y (Rot)">
             <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{pcaY}}" slot="dropdown-content">
               <paper-item disabled class="dropdown-item header">
                   <div>#</div>
-                  <div>Variance (%)</div>
+                  <div>Varianz (%)</div>
               </paper-item>
               <template is="dom-repeat" items="[[pcaComponents]]">
                 <paper-item class="dropdown-item" value="[[item.id]]" label="Component #[[item.componentNumber]]">
@@ -12905,11 +12897,17 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
           <paper-checkbox id="z-checkbox" checked="{{pcaIs3d}}"></paper-checkbox>
         </div>
       </div>
-      <p id="pca-sampling" class="notice">
+      <p>
+        <iron-icon icon="book" class="book-icon"></iron-icon>
+        <a target="_blank" href="http://distill.pub/2016/misread-tsne/">
+         Einführung Hauptkomponentenanalyse.
+        </a>
+        <p>
+      <div id="total-variance">Total variance</div>
+      <p id="pca-sampling" class="notice" style="visibility: hidden;">
         PCA is approximate.
         <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
-      
-      <div id="total-variance">Total variance</div>
+        <p>
       <paper-tooltip for="pca-sampling" position="top" animation-delay="0" fit-to-visible-bounds>
         For fast results, the data was sampled to [[getPcaSampleSizeText()]] points and randomly projected down to [[getPcaSampledDimText()]] dimensions.
       </paper-tooltip>
@@ -12944,7 +12942,7 @@ pcaZ:{type:Number,value:2,observer:"showPCAIfEnabled"},customSelectedSearchByMet
 function(){this.zDropdown=this.querySelector("#z-dropdown");this.runTsneButton=this.querySelector(".run-tsne");this.pauseTsneButton=this.querySelector(".pause-tsne");this.perturbTsneButton=this.querySelector(".perturb-tsne");this.perplexitySlider=this.querySelector("#perplexity-slider");this.learningRateInput=this.querySelector("#learning-rate-slider");this.superviseFactorInput=this.querySelector("#supervise-factor-slider");this.iterationLabelTsne=this.querySelector(".run-tsne-iter");this.runUmapButton=
 this.querySelector("#run-umap")};d.prototype.disablePolymerChangesTriggerReprojection=function(){this.polymerChangesTriggerReprojection=!1};d.prototype.enablePolymerChangesTriggerReprojection=function(){this.polymerChangesTriggerReprojection=!0};d.prototype.updateTSNEPerplexityFromSliderChange=function(){this.perplexitySlider&&(this.perplexity=+this.perplexitySlider.value);this.querySelector(".tsne-perplexity span").innerText=""+this.perplexity};d.prototype.updateTSNELearningRateFromUIChange=function(){this.learningRateInput&&
 (this.learningRate=Math.pow(10,+this.learningRateInput.value));this.querySelector(".tsne-learning-rate span").innerText=""+this.learningRate};d.prototype.updateTSNESuperviseFactorFromUIChange=function(){this.querySelector(".tsne-supervise-factor span").innerText=""+this.superviseFactor;this.dataSet&&this.dataSet.setSuperviseFactor(this.superviseFactor)};d.prototype.setupUIControls=function(){for(var e=this,g=this,h=this.querySelectorAll(".ink-tab"),k=0;k<h.length;k++)h[k].addEventListener("click",
-function(){var l=this.getAttribute("data-tab");g.showTab(l)});this.runTsneButton.addEventListener("click",function(){e.dataSet.hasTSNERun?e.dataSet.stopTSNE():e.runTSNE()});this.pauseTsneButton.addEventListener("click",function(){e.dataSet.tSNEShouldPause?(e.dataSet.tSNEShouldPause=!1,e.pauseTsneButton.innerText="Pause"):(e.dataSet.tSNEShouldPause=!0,e.pauseTsneButton.innerText="Resume")});this.perturbTsneButton.addEventListener("mousedown",function(){e.dataSet&&e.projector&&(e.dataSet.perturbTsne(),
+function(){var l=this.getAttribute("data-tab");g.showTab(l)});this.runTsneButton.addEventListener("click",function(){e.dataSet.hasTSNERun?e.dataSet.stopTSNE():e.runTSNE()});this.pauseTsneButton.addEventListener("click",function(){e.dataSet.tSNEShouldPause?(e.dataSet.tSNEShouldPause=!1,e.pauseTsneButton.innerText="Pause"):(e.dataSet.tSNEShouldPause=!0,e.pauseTsneButton.innerText="Fortfahren")});this.perturbTsneButton.addEventListener("mousedown",function(){e.dataSet&&e.projector&&(e.dataSet.perturbTsne(),
 e.projector.notifyProjectionPositionsUpdated(),e.perturbInterval=setInterval(function(){e.dataSet.perturbTsne();e.projector.notifyProjectionPositionsUpdated()},100))});this.perturbTsneButton.addEventListener("mouseup",function(){clearInterval(e.perturbInterval)});this.perplexitySlider.value=this.perplexity.toString();this.perplexitySlider.addEventListener("change",function(){return e.updateTSNEPerplexityFromSliderChange()});this.updateTSNEPerplexityFromSliderChange();this.learningRateInput.addEventListener("change",
 function(){return e.updateTSNELearningRateFromUIChange()});this.updateTSNELearningRateFromUIChange();this.superviseFactorInput.addEventListener("change",function(){return e.updateTSNESuperviseFactorFromUIChange()});this.updateTSNESuperviseFactorFromUIChange();this.setupCustomProjectionInputFields();h=this.querySelectorAll("paper-dropdown-menu paper-input input");for(k=0;k<h.length;k++)h[k].style.fontSize="14px"};d.prototype.restoreUIFromBookmark=function(e){this.disablePolymerChangesTriggerReprojection();
 this.pcaX=e.pcaComponentDimensions[0];this.pcaY=e.pcaComponentDimensions[1];3===e.pcaComponentDimensions.length&&(this.pcaZ=e.pcaComponentDimensions[2]);this.pcaIs3d=3===e.pcaComponentDimensions.length;this.perplexitySlider&&(this.perplexitySlider.value=e.tSNEPerplexity.toString());this.learningRateInput&&(this.learningRateInput.value=e.tSNELearningRate.toString());this.tSNEis3d=e.tSNEis3d;this.umapIs3d=e.umapIs3d;this.umapNeighbors=e.umapNeighbors;this.customSelectedSearchByMetadataOption=e.customSelectedSearchByMetadataOption;
@@ -12957,9 +12955,9 @@ e?null:"none";this.showTab("pca")};d.prototype._pcaDimensionToggleObserver=funct
 this.customSelectedSearchByMetadataOption=this.searchByMetadataOptions[Math.max(0,g)]};d.prototype.showTab=function(e){var g=this;this.currentProjection=e;for(var h=this.querySelector('.ink-tab[data-tab\x3d"'+e+'"]'),k=this.querySelectorAll(".ink-tab"),l=0;l<k.length;l++)a.util.classed(k[l],"active",!1);a.util.classed(h,"active",!0);h=this.querySelectorAll(".ink-panel-content");for(l=0;l<h.length;l++)a.util.classed(h[l],"active",!1);a.util.classed(this.querySelector('.ink-panel-content[data-panel\x3d"'+
 e+'"]'),"active",!0);if(null!=this.$){var m=this.$.main;requestAnimationFrame(function(){g.style.height=m.clientHeight+"px"})}this.beginProjection(e)};d.prototype.beginProjection=function(e){!1!==this.polymerChangesTriggerReprojection&&("pca"===e?(null!=this.dataSet&&this.dataSet.stopTSNE(),this.showPCA()):"tsne"===e?this.showTSNE():"umap"===e?this.showUmap():"custom"===e&&(null!=this.dataSet&&this.dataSet.stopTSNE(),this.computeAllCentroids(),this.reprojectCustom()))};d.prototype.showTSNE=function(){var e=
 this.dataSet;if(null!=e){var g=a.getProjectionComponents("tsne",[0,1,this.tSNEis3d?2:null]);e=new a.Projection("tsne",g,this.tSNEis3d?3:2,e);this.projector.setProjection(e);this.dataSet.hasTSNERun?this.projector.notifyProjectionPositionsUpdated():this.runTSNE()}};d.prototype.runTSNE=function(){var e=this,g=!1;this.runTsneButton.innerText="Stop";this.runTsneButton.disabled=!0;this.pauseTsneButton.innerText="Pause";this.pauseTsneButton.disabled=!0;this.perturbTsneButton.disabled=!1;this.dataSet.projectTSNE(this.perplexity,
-this.learningRate,this.tSNEis3d?3:2,function(h){null!=h?(e.runTsneButton.disabled=!1,e.pauseTsneButton.disabled=!1,e.iterationLabelTsne.innerText=""+h,e.projector.notifyProjectionPositionsUpdated(),!g&&e.dataSet.projections.tsne&&(e.projector.onProjectionChanged(),g=!0)):(e.runTsneButton.innerText="Re-run",e.runTsneButton.disabled=!1,e.pauseTsneButton.innerText="Pause",e.pauseTsneButton.disabled=!0,e.perturbTsneButton.disabled=!0,e.projector.onProjectionChanged())})};d.prototype.showUmap=function(){var e=
+this.learningRate,this.tSNEis3d?3:2,function(h){null!=h?(e.runTsneButton.disabled=!1,e.pauseTsneButton.disabled=!1,e.iterationLabelTsne.innerText=""+h,e.projector.notifyProjectionPositionsUpdated(),!g&&e.dataSet.projections.tsne&&(e.projector.onProjectionChanged(),g=!0)):(e.runTsneButton.innerText="Neustart",e.runTsneButton.disabled=!1,e.pauseTsneButton.innerText="Pause",e.pauseTsneButton.disabled=!0,e.perturbTsneButton.disabled=!0,e.projector.onProjectionChanged())})};d.prototype.showUmap=function(){var e=
 this.dataSet;if(null!=e){var g=a.getProjectionComponents("umap",[0,1,this.umapIs3d?2:null]);e=new a.Projection("umap",g,this.umapIs3d?3:2,e);this.projector.setProjection(e);this.dataSet.hasUmapRun?this.projector.notifyProjectionPositionsUpdated():this.runUmap()}};d.prototype.runUmap=function(){var e=this,g=!1;this.runUmapButton.disabled=!0;this.dataSet.projectUmap(this.umapIs3d?3:2,this.umapNeighbors,function(h){null!=h?(e.runUmapButton.disabled=!1,e.projector.notifyProjectionPositionsUpdated(),!g&&
-e.dataSet.projections.umap&&(e.projector.onProjectionChanged(),g=!0)):(e.runUmapButton.innerText="Re-run",e.runUmapButton.disabled=!1,e.projector.onProjectionChanged())})};d.prototype.showPCAIfEnabled=function(){this.polymerChangesTriggerReprojection&&this.showPCA()};d.prototype.updateTotalVarianceMessage=function(){var e=this.dataSet.fracVariancesExplained,g=e[this.pcaX]+e[this.pcaY];this.pcaIs3d&&(g+=e[this.pcaZ]);e="Total variance described: "+((100*g).toFixed(1)+"%.");this.querySelector("#total-variance").innerHTML=
+e.dataSet.projections.umap&&(e.projector.onProjectionChanged(),g=!0)):(e.runUmapButton.innerText="Re-run",e.runUmapButton.disabled=!1,e.projector.onProjectionChanged())})};d.prototype.showPCAIfEnabled=function(){this.polymerChangesTriggerReprojection&&this.showPCA()};d.prototype.updateTotalVarianceMessage=function(){var e=this.dataSet.fracVariancesExplained,g=e[this.pcaX]+e[this.pcaY];this.pcaIs3d&&(g+=e[this.pcaZ]);e="Beschriebene Datenvarietät: "+((100*g).toFixed(1)+"%.");this.querySelector("#total-variance").innerHTML=
 e};d.prototype.showPCA=function(){var e=this;null!=this.dataSet&&this.dataSet.projectPCA().then(function(){var g=a.getProjectionComponents("pca",[e.pcaX,e.pcaY,e.pcaZ]);g=new a.Projection("pca",g,e.pcaIs3d?3:2,e.dataSet);e.projector.setProjection(g);g=Math.min(10,e.dataSet.dim[1]);e.updateTotalVarianceMessage();e.pcaComponents=a.util.range(g).map(function(h){return{id:h,componentNumber:h+1,percVariance:(100*e.dataSet.fracVariancesExplained[h]).toFixed(1)}})})};d.prototype.reprojectCustom=function(){if(null!=
 this.centroids&&null!=this.centroids.xLeft&&null!=this.centroids.xRight&&null!=this.centroids.yUp&&null!=this.centroids.yDown){var e=a.vector.sub(this.centroids.xRight,this.centroids.xLeft);this.dataSet.projectLinear(e,"linear-x");e=a.vector.sub(this.centroids.yUp,this.centroids.yDown);this.dataSet.projectLinear(e,"linear-y");e=a.getProjectionComponents("custom",["x","y"]);e=new a.Projection("custom",e,2,this.dataSet);this.projector.setProjection(e)}};d.prototype.clearCentroids=function(){this.centroids=
 {xLeft:null,xRight:null,yUp:null,yDown:null};this.allCentroid=null};d.prototype._customSelectedSearchByMetadataOptionChanged=function(){!1!==this.polymerChangesTriggerReprojection&&"custom"===this.currentProjection&&(this.computeAllCentroids(),this.reprojectCustom())};d.prototype.setupCustomProjectionInputFields=function(){this.customProjectionXLeftInput=this.setupCustomProjectionInputField("xLeft");this.customProjectionXRightInput=this.setupCustomProjectionInputField("xRight");this.customProjectionYUpInput=
@@ -13208,7 +13206,7 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   </paper-dialog-scrollable>
   <div style="text-align: center;"><paper-spinner-lite active class="progress"></paper-spinner-lite></div>
   <div class="buttons">
-    <paper-button class="close-button" dialog-confirm autofocus>Close</paper-button>
+    <paper-button class="close-button" dialog-confirm autofocus>Schließen</paper-button>
   </div>
 </paper-dialog>
 <div id="container">
@@ -13219,24 +13217,24 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   <div id="main" class="ink-panel">
     <div class="ink-panel-menubar">
       <paper-icon-button id="selectMode" alt="Bounding box selection" toggles icon="image:photo-size-select-small"></paper-icon-button>
-      <paper-tooltip for="selectMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Bounding box selection</paper-tooltip>
+      <paper-tooltip for="selectMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Begrenzungsrahmen auswählen</paper-tooltip>
 
       <paper-icon-button id="editMode" alt="Edit current selection" toggles icon="image:exposure"></paper-icon-button>
-      <paper-tooltip for="editMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Edit current selection</paper-tooltip>
+      <paper-tooltip for="editMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Auswahl bearbeiten</paper-tooltip>
 
       <paper-icon-button id="nightDayMode" alt="Enable/disable night mode" toggles icon="image:brightness-2"></paper-icon-button>
-      <paper-tooltip for="nightDayMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Enable/disable night mode</paper-tooltip>
+      <paper-tooltip for="nightDayMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Aktivieren/Deaktivieren Nacht-Modus</paper-tooltip>
 
       <paper-icon-button id="labels3DMode" alt="Enable/disable 3D labels mode" toggles icon="font-download"></paper-icon-button>
-      <paper-tooltip for="labels3DMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Enable/disable 3D labels mode</paper-tooltip>
+      <paper-tooltip for="labels3DMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Aktivieren/Deaktivieren 3D Beschriftung</paper-tooltip>
       <div class="status-bar-panel">
-        <div class="status-bar-entry">Points: <span class="numDataPoints">Loading...</span></div>
-        <div class="status-bar-entry">Dimension: <span class="dim">Loading...</span></div>
+        <div class="status-bar-entry">Lieder: <span class="numDataPoints">Lade...</span></div>
+        <div class="status-bar-entry">Eigenschaften: <span class="dim">Lade...</span></div>
         <div id="status-bar" class="status-bar-entry" style="display: none;"></div>
       </div>
       <div class="ink-fabs">
         <paper-icon-button id="reset-zoom" class="ink-fab" alt="Reset zoom to fit all points" icon="home"></paper-icon-button>
-        <paper-tooltip for="reset-zoom" position="left" animation-delay="0">Reset zoom to fit all points</paper-tooltip>
+        <paper-tooltip for="reset-zoom" position="left" animation-delay="0">Auswahl zurücksetzen</paper-tooltip>
       </div>
     </div>
     <div class="stage">
@@ -13245,18 +13243,18 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
       </div>
       <vz-projector-metadata-card id="metadata-card"></vz-projector-metadata-card>
       <paper-icon-button raised onclick="help3dDialog.open()" icon="help-outline" id="help-3d-icon"></paper-icon-button>
-      <paper-tooltip animation-delay="0" for="help-3d-icon">Help with interaction controls.</paper-tooltip>
+      <paper-tooltip animation-delay="0" for="help-3d-icon">Hilfe bei der Interaktionssteuerung.</paper-tooltip>
       <paper-dialog id="help3dDialog" with-backdrop>
         <div class="main" dialog-confirm autofocus>
-          <h3>3D controls</h3>
-            <b>Rotate</b> Mouse left click.<br>
-            <b>Pan</b> Mouse right click.<br>
-            <b>Zoom</b> Mouse wheel.<br>
-            Holding <b>ctrl</b> reverses the mouse clicks.
-          <h3>2D controls</h3>
-            <b>Pan</b> Mouse left click.<br>
-            <b>Zoom</b> Mouse wheel.
-          <div class="dismiss-dialog-note"> Click anywhere to dismiss.</div>
+          <h3>3D Steuerung</h3>
+            <b>Rotieren</b> Linke Maustaste.<br>
+            <b>Verschieben</b> Rechte Maustaste.<br>
+            <b>Zoom</b> Maus Rad.<br>
+            Drücken von <b>Strg</b> kehrt Steuerung um.
+          <h3>2D Steuerung</h3>
+            <b>Pan</b> Linke Maustaste.<br>
+            <b>Zoom</b> Maus Rad.
+          <div class="dismiss-dialog-note"> Zum Verlassen der Ansicht auf eine beliebige Stelle klicken.</div>
         </div>
       </paper-dialog>
     </div>
@@ -13349,13 +13347,13 @@ vz-projector {
       <a title="Documentation" target="_blank" href="[[documentationLink]]">
         <paper-icon-button icon="help-outline"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
-          Open documentation
+          Dokumentation aufrufen
         </paper-tooltip>
       </a>
       <a title="Report bug" target="_blank" href="[[bugReportLink]]">
         <paper-icon-button icon="bug-report"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
-          Report a bug
+          Einen Fehler melden
         </paper-tooltip>
       </a>
     </div>
@@ -13374,7 +13372,7 @@ Polymer({is:"vz-projector-app",properties:{pageViewLogging:{type:Boolean,value:!
   
   
 
-  <title>FHWS Jukebox - visualization of music</title>
+  <title>FHWS Jukebox - Visualisierung von Musik</title>
   <style include="vz-projector-styles"></style>
   <style>
     html {
@@ -13391,7 +13389,7 @@ Polymer({is:"vz-projector-app",properties:{pageViewLogging:{type:Boolean,value:!
   </style>
 
 <body>
-  <vz-projector-app documentation-link="https://www.tensorflow.org/get_started/embedding_viz" bug-report-link="https://github.com/tensorflow/tensorflow/issues" serving-mode="demo" projector-config-json-path="data_storage/oss_demo_projector_config.json" page-view-logging>
+  <vz-projector-app documentation-link="https://www.tensorflow.org/get_started/embedding_viz" bug-report-link="https://github.com/ChristophRaab/Jukebox/issues" serving-mode="demo" projector-config-json-path="data_storage/oss_demo_projector_config.json" page-view-logging>
   </vz-projector-app>
 
 

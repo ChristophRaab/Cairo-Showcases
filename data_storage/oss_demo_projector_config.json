@@ -29,16 +29,6 @@
         "imagePath": "data_storage/sprite.png",
         "singleImageDim": [32, 32]
       }
-    },
-    {
-      "tensorName": "Melspektrogramm",
-      "tensorShape": [479, 50],
-      "tensorPath": "data_storage/pca.bytes",
-      "metadataPath": "data_storage/metadata.tsv",
-      "sprite": {
-        "imagePath": "data_storage/sprite.png",
-        "singleImageDim": [32, 32]
-      }
     }],
 
   "modelCheckpointPath": "FHWS Jukebox"
