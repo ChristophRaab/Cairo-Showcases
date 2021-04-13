@@ -6371,6 +6371,9 @@ _onAnimationFinish:function(){this._animationPlaying=!1;this._showing||this.togg
     font-size: 14px;
   };
 }
+#EmbUrl {
+    display: None;
+}
 
 paper-button {
   background: #e3e3e3;
@@ -11420,7 +11423,7 @@ paper-dropdown-menu paper-item {
       <paper-dropdown-menu id="labelby" no-animations label="Beschriftung">
         <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedLabelOption}}" slot="dropdown-content">
           <template is="dom-repeat" items="[[labelOptions]]">
-            <paper-item value="[[item]]" label="[[item]]">
+            <paper-item id="[[item]]"" value="[[item]]" label="[[item]]">
               [[item]]
             </paper-item>
           </template>
@@ -11430,7 +11433,7 @@ paper-dropdown-menu paper-item {
       <paper-dropdown-menu id="colorby" no-animations label="Färbung">
         <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedColorOptionName}}" slot="dropdown-content">
           <template is="dom-repeat" items="[[colorOptions]]">
-            <paper-item class$="[[getSeparatorClass(item.isSeparator)]]" value="[[item.name]]" label="[[item.name]]" disabled="[[item.isSeparator]]">
+            <paper-item  class$="[[getSeparatorClass(item.isSeparator)]]" value="[[item.name]]" label="[[item.name]]" disabled="[[item.isSeparator]]">
               [[item.name]]
               <span class="item-details">[[item.desc]]</span>
             </paper-item>
@@ -11702,7 +11705,7 @@ delete l.embeddings[0].metadataPath;e.setProjectorConfigTemplateJson(k,l)};var p
   </div>
 </paper-input>
 <paper-tooltip for="regex" position="bottom" animation-delay="0" fit-to-visible-bounds>
-  Enable/disable regex mode.
+  Aktiviere/Deaktiviere Reguläre Ausdrücke.
 </paper-tooltip>
 <span class="info">[[message]]</span>
 
@@ -12543,6 +12546,9 @@ g.enableResetFilterButton(!1)};this.clearSelectionButton.onclick=function(){e.ad
 .metadata-value {
   overflow-wrap: break-word;
 }
+#EmbUrl {
+    display: None;
+}
 </style>
 
 <template is="dom-if" if="[[hasMetadata]]">
@@ -12557,22 +12563,28 @@ g.enableResetFilterButton(!1)};this.clearSelectionButton.onclick=function(){e.ad
     <iron-collapse id="metadata-container" opened>
       <div id="metadata-table">
         <template is="dom-repeat" items="[[metadata]]">
-          <div class="metadata-row">
+          <div id="[[item.key]]" class="metadata-row">
             <div class="metadata-key">[[item.key]]</div>
             <div class="metadata-value">[[item.value]]</div>
           </div>
         </template>
       </div>
+
     </iron-collapse>
-    <iframe src="https://open.spotify.com/embed/track/2Lu4A1yRyvG56B1rgKx8Q7" style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>
+    <template is="dom-repeat" items="[[metadata[-1]]]">
+       <iframe id="spot" hidden$="[[computeSpanHidden(metadata,index)]]" src="[[item.value]]" style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>
+      </template>
   </div>
 </template>
 
 </template>
 <script>//~~WEBPATH~~/vz-projector/vz-projector-metadata-card.js
-zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,c){b.__proto__=c}||function(b,c){for(var d in c)c.hasOwnProperty(d)&&(b[d]=c[d])};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}();
-(function(a){a.MetadataCardPolymer=a.PolymerElement({is:"vz-projector-metadata-card",properties:{hasMetadata:{type:Boolean,value:!1},isCollapsed:{type:Boolean,value:!1},collapseIcon:{type:String,value:"expand-less"},metadata:{type:Array},label:String}});var b=function(c){function d(){return null!==c&&c.apply(this,arguments)||this}zc(d,c);d.prototype._toggleMetadataContainer=function(){this.$$("#metadata-container").toggle();this.isCollapsed=!this.isCollapsed;this.set("collapseIcon",this.isCollapsed?
+zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,c){b.__proto__=c}||function(b,c){for(var d in c)c.hasOwnProperty(d)&&(b[d]=c[d])};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)};}();
+(function(a){a.MetadataCardPolymer=a.PolymerElement({is:"vz-projector-metadata-card",properties:{hasMetadata:{type:Boolean,value:!1},isCollapsed:{type:Boolean,value:!1},collapseIcon:{type:String,value:"expand-less"},metadata:{type:Array},label:String}});var b=function(c){function d(){return null!==c&&c.apply(this,arguments)||this}zc(d,c);d.prototype.computeSpanHidden=function(metadata,index){
+  return (metadata.length - 1) !== index
+};d.prototype._toggleMetadataContainer=function(){this.$$("#metadata-container").toggle();this.isCollapsed=!this.isCollapsed;this.set("collapseIcon",this.isCollapsed?
 "expand-more":"expand-less")};d.prototype.updateMetadata=function(e){this.pointMetadata=e;this.hasMetadata=null!=e;if(e){var g=[],h;for(h in e)e.hasOwnProperty(h)&&g.push({key:h,value:e[h]});this.metadata=g;this.label=""+this.pointMetadata[this.labelOption]}};d.prototype.setLabelOption=function(e){this.labelOption=e;this.pointMetadata&&(this.label=""+this.pointMetadata[this.labelOption])};return d}(a.MetadataCardPolymer);a.MetadataCard=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
+
 </script>
 </dom-module>
 
@@ -12978,6 +12990,7 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   overflow: hidden;
 }
 
+
 .hidden {
   display: none !important;
 }
@@ -13286,7 +13299,7 @@ null!=e&&this.normalizeData&&e.normalize();this.dim=null==e?0:e.dim[1];this.quer
 this;this.querySelector("#reset-zoom").addEventListener("click",function(){e.projectorScatterPlotAdapter.scatterPlot.resetZoom();e.projectorScatterPlotAdapter.scatterPlot.startOrbitAnimation()});var g=this.querySelector("#selectMode");g.addEventListener("click",function(){e.setMouseMode(g.active?a.MouseMode.AREA_SELECT:a.MouseMode.CAMERA_AND_CLICK_SELECT)});var h=this.querySelector("#nightDayMode");h.addEventListener("click",function(){e.projectorScatterPlotAdapter.scatterPlot.setDayNightMode(h.active)});
 var k=this.querySelector("#editMode");k.addEventListener("click",function(){e.editMode=k.active});this.get3DLabelModeButton().addEventListener("click",function(){e.projectorScatterPlotAdapter.set3DLabelMode(e.get3DLabelMode())});window.addEventListener("resize",function(){e.parentNode.style.height=document.body.clientHeight+"px";e.projectorScatterPlotAdapter.resize()});this.projectorScatterPlotAdapter=new a.ProjectorScatterPlotAdapter(this.getScatterContainer(),this);this.projectorScatterPlotAdapter.setLabelPointAccessor(this.selectedLabelOption);
 this.projectorScatterPlotAdapter.scatterPlot.onCameraMove(function(){return e.bookmarkPanel.clearStateSelection()});this.registerHoverListener(function(l){return e.onHover(l)});this.registerProjectionChangedListener(function(l){return e.onProjectionChanged(l)});this.registerSelectionChangedListener(function(l,m){return e.onSelectionChanged(l,m)})};d.prototype.onHover=function(e){this.hoverPointIndex=e;var g=null;null!=e&&(e=this.dataSet.points[e],e.metadata[this.selectedLabelOption]&&(g=e.metadata[this.selectedLabelOption].toString()));
-0===this.selectedPointIndices.length&&(this.statusBar.style.display=g?null:"none",this.statusBar.innerText=g)};d.prototype.getScatterContainer=function(){return this.querySelector("#scatter")};d.prototype.onSelectionChanged=function(e,g){this.selectedPointIndices=e;this.neighborsOfFirstPoint=g;this.dataPanel.onProjectorSelectionChanged(e,g);e=this.selectedPointIndices.length+g.length;this.statusBar.innerText="Selected "+e+" points";this.statusBar.style.display=0<e?null:"none"};d.prototype.onProjectionChanged=
+0===this.selectedPointIndices.length&&(this.statusBar.style.display=g?null:"none",this.statusBar.innerText=g)};d.prototype.getScatterContainer=function(){return this.querySelector("#scatter")};d.prototype.onSelectionChanged=function(e,g){this.selectedPointIndices=e;this.neighborsOfFirstPoint=g;this.dataPanel.onProjectorSelectionChanged(e,g);e=this.selectedPointIndices.length+g.length;this.statusBar.innerText=e+" Lieder ausgewählt";this.statusBar.style.display=0<e?null:"none"};d.prototype.onProjectionChanged=
 function(e){this.dataPanel.projectionChanged(e)};d.prototype.setProjection=function(e){this.projection=e;null!=e&&this.analyticsLogger.logProjectionChanged(e.projectionType);this.notifyProjectionChanged(e)};d.prototype.notifyProjectionPositionsUpdated=function(){this.projectorScatterPlotAdapter.notifyProjectionPositionsUpdated()};d.prototype.getCurrentState=function(){var e=new a.State;e.projections=[];for(var g=0;g<this.dataSet.points.length;g++){for(var h=this.dataSet.points[g],k={},l=Object.keys(h.projections),
 m=0;m<l.length;++m)k[l[m]]=h.projections[l[m]];e.projections.push(k)}e.selectedProjection=this.projection.projectionType;e.dataSetDimensions=this.dataSet.dim;e.tSNEIteration=this.dataSet.tSNEIteration;e.selectedPoints=this.selectedPointIndices;e.filteredPoints=this.dataSetFilterIndices;this.projectorScatterPlotAdapter.populateBookmarkFromUI(e);e.selectedColorOptionName=this.dataPanel.selectedColorOptionName;e.forceCategoricalColoring=this.dataPanel.forceCategoricalColoring;e.selectedLabelOption=this.selectedLabelOption;
 this.projectionsPanel.populateBookmarkFromUI(e);return e};d.prototype.loadState=function(e){this.setProjection(null);this.projectionsPanel.disablePolymerChangesTriggerReprojection();null!=this.dataSetBeforeFilter&&this.resetFilterDataset();null!=e.filteredPoints&&this.filterDataset(e.filteredPoints);this.projectionsPanel.enablePolymerChangesTriggerReprojection();for(var g=0;g<e.projections.length;g++)for(var h=this.dataSet.points[g],k=e.projections[g],l=Object.keys(k),m=0;m<l.length;++m)h.projections[l[m]]=
