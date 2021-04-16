@@ -12571,16 +12571,19 @@ g.enableResetFilterButton(!1)};this.clearSelectionButton.onclick=function(){e.ad
       </div>
 
     </iron-collapse>
-    <template is="dom-repeat" items="[[metadata[-1]]]">
-       <iframe id="spot" hidden$="[[computeSpanHidden(metadata,index)]]" src="[[item.value]]" style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>
-      </template>
+    <template is="dom-repeat" items="[[metadata]]">
+          <div class="metadata-row">
+            <iframe id="spot" hidden$="[[computeSpanHidden(metadata,index,item.key)]]" src="[[item.value]]" style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>
+          </div>
+        </template>
   </div>
 </template>
 
 </template>
 <script>//~~WEBPATH~~/vz-projector/vz-projector-metadata-card.js
 zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,c){b.__proto__=c}||function(b,c){for(var d in c)c.hasOwnProperty(d)&&(b[d]=c[d])};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)};}();
-(function(a){a.MetadataCardPolymer=a.PolymerElement({is:"vz-projector-metadata-card",properties:{hasMetadata:{type:Boolean,value:!1},isCollapsed:{type:Boolean,value:!1},collapseIcon:{type:String,value:"expand-less"},metadata:{type:Array},label:String}});var b=function(c){function d(){return null!==c&&c.apply(this,arguments)||this}zc(d,c);d.prototype.computeSpanHidden=function(metadata,index){
+(function(a){a.MetadataCardPolymer=a.PolymerElement({is:"vz-projector-metadata-card",properties:{hasMetadata:{type:Boolean,value:!1},isCollapsed:{type:Boolean,value:!1},collapseIcon:{type:String,value:"expand-less"},metadata:{type:Array},label:String}});var b=function(c){function d(){return null!==c&&c.apply(this,arguments)||this}zc(d,c);d.prototype.computeSpanHidden=function(metadata,index,key){
+  console.log(key)
   return (metadata.length - 1) !== index
 };d.prototype._toggleMetadataContainer=function(){this.$$("#metadata-container").toggle();this.isCollapsed=!this.isCollapsed;this.set("collapseIcon",this.isCollapsed?
 "expand-more":"expand-less")};d.prototype.updateMetadata=function(e){this.pointMetadata=e;this.hasMetadata=null!=e;if(e){var g=[],h;for(h in e)e.hasOwnProperty(h)&&g.push({key:h,value:e[h]});this.metadata=g;this.label=""+this.pointMetadata[this.labelOption]}};d.prototype.setLabelOption=function(e){this.labelOption=e;this.pointMetadata&&(this.label=""+this.pointMetadata[this.labelOption])};return d}(a.MetadataCardPolymer);a.MetadataCard=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
