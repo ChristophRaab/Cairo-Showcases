@@ -12,9 +12,25 @@ import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 import os
-
 import cv2
-    
+import requests
+import urllib
+import pandas as pd 
+
+
+
+
+url ="https://api.spotify.com/v1/search?q="
+headers={"Authorization": "Bearer BQAKwbYPMEGvVhVU6MYy2_y7VnJbi8HdbvSiu5DYbjz4CdP3gIZsVzcpZflnfPV-UODxQTLb_Gy9YNTuk49gkZPE4mmNzLSkUaJpPvfKJrrBJNFJCwJcLk_M37AYzl9IonycMZlf8ztmm2c", "Accept": "application/json", "Content-Type": "application/json" }
+
+def get_embeded_url(l): #l df["Artist"],df["Songname"])
+    song = l.replace("\"","")
+    song = urllib.parse.quote_plus(song)
+    req = requests.get(url+song+"&type=track", headers=headers)
+    data = req.json()
+    meta = data["tracks"]["items"][0]["external_urls"]["spotify"]
+    return meta
+
 def spec_to_image(spec, eps=1e-6):
   mean = spec.mean()
   std = spec.std()
@@ -47,10 +63,9 @@ def feature_exctraction(path):
         data_raw.append(music[0])
         data.append(spec_to_image(get_melspectrogram_db(file))[np.newaxis,...])
 
-        tag = eyed3.load(file).tag
-        artist = tag.artist.split("/")[0]
-        metadata.append([artist,tag.title.replace("\"",""),tag.album.replace("\"","")])
-        labels.append(artist)
+        song_meta = metadata.append(read_song_metadata(file))
+        metadata.append(song_meta)
+        labels.append(song_meta[0])
 
 
     le = LabelEncoder()
@@ -64,10 +79,23 @@ def feature_exctraction(path):
     np.save('classicalmusic_labels.npy', binarized_labels)
 
     df = pd.DataFrame(metadata)
-    df1 = pd.DataFrame(binarized_labels)
-    df = pd.concat([df1,df],axis=1)
-    df.to_csv(header=["Label","Artist","Songname","Album"],sep="\t",index=False,path_or_buf='metadata.tsv')
+    df.to_csv(header=["Artist","Songname","Album","EmbUrl"],sep="\t",index=False,path_or_buf='metadata.tsv')
 
+def read_song_metadata(f):
+    tag = eyed3.load(f).tag
+    artist = tag.artist.split("/")[0]
+    url = get_embeded_url(artist+" "+tag.title.replace("\"",""))
+    return [artist,tag.title.replace("\"",""),tag.album.replace("\"",""),url]
+
+def create_tensorboard_metadata(path):
+    metadata = []
+
+    for file in glob.glob(path+ '/**/*.mp3', recursive=True):
+        print(file)
+        # metadata.append(read_song_metadata(file))
+
+    # df = pd.DataFrame(metadata)
+    # df.to_csv(header=["Artist","Songname","Album","EmbUrl"],sep="\t",index=False,path_or_buf='metadata.tsv')
 
 def create_sprite(data):
     """
@@ -112,14 +140,14 @@ def sprite(path):
 
 if __name__ == '__main__':
 
-  # feature_exctraction('/home/bix/Christoph/owncloud/mozartai/jukebox/data_generation/spotify/spotify/')
+  create_tensorboard_metadata('/home/bix/Christoph/owncloud/mozartai/jukebox/data_generation/spotify/spotify/')
 
-  from sklearn.decomposition import PCA
-  from sklearn.preprocessing import StandardScaler
-  data = np.load('/home/bix/Christoph/owncloud/mozartai/jukebox/classicalmusic_data_raw.npy')
+  # from sklearn.decomposition import PCA
+  # from sklearn.preprocessing import StandardScaler
+  # data = np.load('/home/bix/Christoph/owncloud/mozartai/jukebox/classicalmusic_data_raw.npy')
   
-  data = StandardScaler().fit_transform(data)
-  data = PCA(50).fit_transform(data)
-  data.tofile("data_generation/pca.bytes")
+  # data = StandardScaler().fit_transform(data)
+  # data = PCA(50).fit_transform(data)
+  # data.tofile("data_generation/pca.bytes")
 
   # sprite('/home/bix/Christoph/owncloud/mozartai/jukebox/data_generation/')
