@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/raab/miniconda3/envs/mozart/bin/python",
+    "python.pythonPath": "C:\\Users\\chris\\.conda\\envs\\pytorch\\python.exe",
     "python.linting.enabled": true,
     "python.languageServer": "Pylance",
 
