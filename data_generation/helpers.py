@@ -30,26 +30,17 @@ def create_feature_extractor():
                             layer1, layer2, layer3, layer4, avgpool)
     return feature_layers
 
-
-def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,cuda):
-
-    xs,ys = xs.float().to(cuda),ys.to(cuda)
-
-    features_extractor.train(),classifier.train()
-    optimizer.zero_grad() 
-
-    fes = features_extractor(xs)
-    ls = classifier(fes)
-    classifier_loss = nn.CrossEntropyLoss()(ls,ys)
-    loss = classifier_loss
-    loss.backward()
-    optimizer.step()
-
-    _,preds = nn.Softmax(1)(ls).detach().max(1)
-    avg_loss = avg_loss + loss
-    avg_acc  = avg_acc + (preds == ys).sum()
-    return optimizer,features_extractor,classifier,avg_loss,avg_acc
-
+def features_dataset(loader,feature_extractor,args):
+    with torch.no_grad():
+        feature_extractor.eval()
+        data = torch.empty(0, args.bottleneck_dim).to(args.cuda)
+        for (x,_) in loader:
+            with torch.set_grad_enabled(False):
+                feature_extractor.eval()
+                x = x.float().to(args.cuda)
+                batch = feature_extractor(x)
+                data = torch.cat([data,batch],dim=0)
+    return data 
 
 def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,cuda,weight=None):
 
@@ -74,12 +65,6 @@ def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,
     return optimizer,features_extractor,classifier,avg_loss,avg_acc
 
 
-def feat_extract(x,features_extractor,cuda):
-    x = x.float().to(cuda)
-    return features_extractor(x)
-
-
-
 def train_resnet_metric(xs,ys,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,cuda):
 
     xs,ys = xs.float().to(cuda),ys.to(cuda)
@@ -98,3 +83,9 @@ def train_resnet_metric(xs,ys,features_extractor,classifier,metricl,optimizer,av
     avg_loss = avg_loss + loss
     avg_acc  = avg_acc + (preds == ys).sum()
     return optimizer,features_extractor,classifier,avg_loss,avg_acc
+
+def print_learning(i,avg_acc,dataset_size,avg_loss,loader_size,best_acc):
+    avg_acc = avg_acc/dataset_size
+    avg_loss = avg_loss/loader_size
+    best_acc = avg_acc if avg_acc > best_acc else best_acc
+    print("Progress " + str(i) + " Mean Training Loss: "+str(round(avg_loss.item(),3))+ " Acc "+str(round(avg_acc.item(),3)))

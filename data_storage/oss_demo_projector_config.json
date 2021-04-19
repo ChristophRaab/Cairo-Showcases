@@ -2,8 +2,8 @@
   "embeddings": [
     {
       "tensorName": "Überwachte KI",
-      "tensorShape": [479, 256],
-      "tensorPath": "data_storage/resnet.bytes",
+      "tensorShape": [479, 3],
+      "tensorPath": "data_storage/resnet_supervised.bytes",
       "metadataPath": "data_storage/metadata.tsv",
       "sprite": {
         "imagePath": "data_storage/sprite.png",
@@ -12,7 +12,7 @@
     },
     {
       "tensorName": "Überwachte KI - Fokus Wolken",
-      "tensorShape": [479, 256],
+      "tensorShape": [479, 3],
       "tensorPath": "data_storage/resnet_metric.bytes",
       "metadataPath": "data_storage/metadata.tsv",
       "sprite": {
@@ -22,8 +22,8 @@
     },
     {
       "tensorName": "Unüberwachte KI",
-      "tensorShape": [479, 64],
-      "tensorPath": "data_storage/deep_clustering.bytes",
+      "tensorShape": [479, 3],
+      "tensorPath": "data_storage/resnet_unsupervised.bytes",
       "metadataPath": "data_storage/metadata.tsv",
       "sprite": {
         "imagePath": "data_storage/sprite.png",

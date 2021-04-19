@@ -110,6 +110,7 @@ classifier.apply(init_weights)
 features_extractor[-1].apply(init_weights)
 s_sn = nn.BatchNorm1d(bottleneck_dim).cuda()
 t_sn = nn.BatchNorm1d(bottleneck_dim).cuda()
+
 optimizer = optim.SGD(
     [{'params': features_extractor[1:-1].parameters(),"lr_mult":1,'decay_mult':2},
      {'params': features_extractor[-1].parameters(),"lr_mult":10,'decay_mult':2},
