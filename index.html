@@ -8351,7 +8351,7 @@ Polymer({is:"paper-input-char-counter",behaviors:[Polymer.PaperInputAddonBehavio
     </style>
 
     <template is="dom-if" if="[[!noLabelFloat]]">
-      <div class="floated-label-placeholder" aria-hidden="true">&nbsp;</div>
+      <div class="floated-label-placeholder" style="visibility: hidden;" aria-hidden="true">&nbsp;</div>
     </template>
 
     <div class$="[[_computeInputContentClass(noLabelFloat,alwaysFloatLabel,focused,invalid,_inputHasContent)]]">
@@ -11403,7 +11403,7 @@ paper-dropdown-menu paper-item {
 
   <template is="dom-if" if="[[tensorNames]]">
     
-    <paper-dropdown-menu no-animations label="[[_getNumTensorsLabel(tensorNames)]] gefunden">
+    <paper-dropdown-menu no-animations >
       <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedTensor}}" slot="dropdown-content">
         <template is="dom-repeat" items="[[tensorNames]]">
           <paper-item value="[[item.name]]" label="[[item.name]]">
