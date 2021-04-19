@@ -11386,7 +11386,7 @@ paper-dropdown-menu paper-item {
 }
 
 </style>
-<div class="title">Musik</div>
+<div class="title">Auswahl der Künstlichen Intelligenz</div>
 <div class="container">
   
   <template is="dom-if" if="[[_hasChoices(runNames)]]">
@@ -11457,7 +11457,7 @@ paper-dropdown-menu paper-item {
   <template is="dom-if" if="[[_hasChoice(labelOptions)]]">
     
     <div hidden$="[[!showSuperviseSettings]]" class="supervise-settings">
-      <paper-dropdown-menu no-animations label="Supervise with">
+      <paper-dropdown-menu no-animations label="Lerne mit Kategorie">
         <paper-listbox attr-for-selected="value" class="dropdown-content" on-selected-item-changed="superviseColumnChanged" selected="{{superviseColumn}}" slot="dropdown-content">
           <template is="dom-repeat" items="[[metadataFields]]">
             <paper-item value="[[item]]" label="[[item]]">
@@ -13223,9 +13223,9 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   </div>
 </paper-dialog>
 <div id="container">
-  <div id="left-pane" class="ink-panel">
-    <vz-projector-data-panel id="data-panel"></vz-projector-data-panel>
-    <vz-projector-projections-panel id="projections-panel"></vz-projector-projections-panel>
+  <div id="left-pane" class="ink-panel"  style="display:None;">
+
+    <vz-projector-projections-panel id="projections-panel" ></vz-projector-projections-panel>
   </div>
   <div id="main" class="ink-panel">
     <div class="ink-panel-menubar">
@@ -13274,6 +13274,8 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   </div>
   <div id="right-pane" class="ink-panel">
     <div class="ink-panel-content active">
+      <vz-projector-data-panel id="data-panel"></vz-projector-data-panel>
+      <div class="title style-scope vz-projector-data-panel">Werkzeuge</div>
       <vz-projector-inspector-panel id="inspector-panel"></vz-projector-inspector-panel>
     </div>
     <div id="bookmark-panel-container" style="display:None">
