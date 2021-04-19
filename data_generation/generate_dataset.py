@@ -92,10 +92,10 @@ def create_tensorboard_metadata(path):
 
     for file in glob.glob(path+ '/**/*.mp3', recursive=True):
         print(file)
-        # metadata.append(read_song_metadata(file))
+        metadata.append(read_song_metadata(file))
 
-    # df = pd.DataFrame(metadata)
-    # df.to_csv(header=["Artist","Songname","Album","EmbUrl"],sep="\t",index=False,path_or_buf='metadata.tsv')
+    df = pd.DataFrame(metadata)
+    df.to_csv(header=["Artist","Songname","Album","EmbUrl"],sep="\t",index=False,path_or_buf='metadata.tsv')
 
 def create_sprite(data):
     """

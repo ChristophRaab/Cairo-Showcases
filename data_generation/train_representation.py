@@ -1,8 +1,8 @@
 from __future__ import print_function, division
 from numpy.lib.utils import source
 import sys
-sys.path.append("../../jukebox/")
-sys.path.append("../jukebox/")
+sys.path.append("../../Jukebox/")
+sys.path.append("../Jukebox/")
 from torch.optim import optimizer
 import torch
 import torch.nn as nn
@@ -42,12 +42,14 @@ def make_parser():
     parser.add_argument('--num_epochs', type=int, default=100, help="Training Epochs")
     parser.add_argument('--eval_epoch', type=int, default=5, help="Evaluation Cycle")
     parser.add_argument('--mode', type=str, default="supervised", help="Network Mode" )
+    parser.add_argument('--path', type=str, default="/home/raabc/Jukebox", help="Network Mode" )
+
     return parser.parse_args()
 
 def train_representation(args):
 
-    data = np.load('/home/bix/Christoph/owncloud/mozartai/jukebox/classicalmusic_data.npy')
-    label = np.load('/home/bix/Christoph/owncloud/mozartai/jukebox/classicalmusic_labels.npy')
+    data = np.load(args.path+'/classicalmusic_data.npy')
+    label = np.load(args.path+'/classicalmusic_labels.npy')
 
     l = data.shape[0]
 
