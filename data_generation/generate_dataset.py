@@ -16,12 +16,22 @@ import cv2
 import requests
 import urllib
 import pandas as pd 
-
-
-
-
+import matplotlib
+import matplotlib.pyplot as plt
+from pathlib import Path 
 url ="https://api.spotify.com/v1/search?q="
-headers={"Authorization": "Bearer BQAKwbYPMEGvVhVU6MYy2_y7VnJbi8HdbvSiu5DYbjz4CdP3gIZsVzcpZflnfPV-UODxQTLb_Gy9YNTuk49gkZPE4mmNzLSkUaJpPvfKJrrBJNFJCwJcLk_M37AYzl9IonycMZlf8ztmm2c", "Accept": "application/json", "Content-Type": "application/json" }
+headers={"Authorization": "Bearer BQCjQQaLdTnMlS7fN6zIKXSIYaW6-ukBMr9pOYPQzgdlozDdjKnc4BpE6LYgZlFdVC9khodnoNC5uV7It5tqFmHSXBgqFlhESkYMli3tw65EHlZw0LmOcfDj_n-UpW5RgUNX854RHM5v-xM", "Accept": "application/json", "Content-Type": "application/json" }
+
+def plot_spectrogram(spec, title=None, ylabel='freq_bin', aspect='auto', xmax=None):
+  fig, axs = plt.subplots(1, 1)
+  axs.set_title(title or 'Spectrogram (db)')
+  axs.set_ylabel(ylabel)
+  axs.set_xlabel('frame')
+  im = axs.imshow(librosa.power_to_db(spec), origin='lower', aspect=aspect)
+  if xmax:
+    axs.set_xlim((0, xmax))
+  fig.colorbar(im, ax=axs)
+  plt.show(block=False)
 
 def get_embeded_url(l): #l df["Artist"],df["Songname"])
     song = l.replace("\"","")
@@ -32,24 +42,24 @@ def get_embeded_url(l): #l df["Artist"],df["Songname"])
     return meta
 
 def spec_to_image(spec, eps=1e-6):
-  mean = spec.mean()
-  std = spec.std()
-  spec_norm = (spec - mean) / (std + eps)
-  spec_min, spec_max = spec_norm.min(), spec_norm.max()
-  spec_scaled = 255 * (spec_norm - spec_min) / (spec_max - spec_min)
-  spec_scaled = spec_scaled.astype(np.uint8)
-  return spec_scaled
+    mean = spec.mean()
+    std = spec.std()
+    spec_norm = (spec - mean) / (std + eps)
+    spec_min, spec_max = spec_norm.min(), spec_norm.max()
+    spec_scaled = 255 * (spec_norm - spec_min) / (spec_max - spec_min)
+    spec_scaled = spec_scaled.astype(np.uint8)
+    return spec_scaled
 
 def get_melspectrogram_db(file_path, sr=None, n_fft=8192, hop_length=512, n_mels=128, fmin=20, fmax=8300, top_db=80):
-  wav,sr = librosa.load(file_path,sr=sr)
-  if wav.shape[0]<5*sr:
-    wav=np.pad(wav,int(np.ceil((5*sr-wav.shape[0])/2)),mode='reflect')
-  else:
-    wav=wav[:5*sr]
-  spec=librosa.feature.melspectrogram(wav, sr=sr, n_fft=n_fft,
-              hop_length=hop_length,n_mels=n_mels,fmin=fmin,fmax=fmax)
-  spec_db=librosa.power_to_db(spec,top_db=top_db)
-  return spec_db
+    wav,sr = librosa.load(file_path,sr=sr)
+    if wav.shape[0]<5*sr:
+        wav=np.pad(wav,int(np.ceil((5*sr-wav.shape[0])/2)),mode='reflect')
+    else:
+        wav=wav[:5*sr]
+    spec=librosa.feature.melspectrogram(wav, sr=sr, n_fft=n_fft,
+                hop_length=hop_length,n_mels=n_mels,fmin=fmin,fmax=fmax)
+    spec_db=librosa.power_to_db(spec,top_db=top_db)
+    return spec_db
 
 def feature_exctraction(path):
 
@@ -59,14 +69,19 @@ def feature_exctraction(path):
     metadata = []
 
     for file in glob.glob(path+ '/**/*.mp3', recursive=True):
-        music = librosa.load(file,offset=45.0, duration=5.0,sr=None)
-        data_raw.append(music[0])
-        data.append(spec_to_image(get_melspectrogram_db(file))[np.newaxis,...])
-
-        song_meta = metadata.append(read_song_metadata(file))
+        song_meta = read_song_metadata(file)
         metadata.append(song_meta)
         labels.append(song_meta[0])
 
+        music = librosa.load(file,offset=45.0, duration=5.0,sr=None)
+        data_raw.append(music[0])
+        song_spec = spec_to_image(get_melspectrogram_db(file))
+        data.append(song_spec[np.newaxis,...])
+        subdir = file.split("mp3/")[0]+"images/"+song_meta[0]
+        img_path = subdir+"/"+file.split("/")[-1].split(".mp3")[0]+".png"
+        Path(subdir).mkdir(parents=True, exist_ok=True)
+        plt.imshow(song_spec)
+        plt.savefig(img_path)
 
     le = LabelEncoder()
     le.fit(labels)
@@ -125,7 +140,7 @@ def sprite(path):
     labels = []
     metadata = []
     images = []
-    for file in glob.glob(path+"spotify/spotify/"+ '/**/*.mp3', recursive=True):
+    for file in glob.glob(path+"spotify/mp3/"+ '/**/*.mp3', recursive=True):
 
         tag = eyed3.load(file).tag
         artist = tag.artist.split("/")[0]
@@ -140,7 +155,8 @@ def sprite(path):
 
 if __name__ == '__main__':
 
-  create_tensorboard_metadata('/home/bix/Christoph/owncloud/mozartai/jukebox/data_generation/spotify/spotify/')
+    feature_exctraction('/home/raabc/Jukebox/data_generation/spotify')
+#   create_tensorboard_metadata('/home/bix/Christoph/owncloud/mozartai/jukebox/data_generation/spotify/mp3/')
 
   # from sklearn.decomposition import PCA
   # from sklearn.preprocessing import StandardScaler

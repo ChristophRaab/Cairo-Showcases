@@ -42,6 +42,28 @@ def features_dataset(loader,feature_extractor,args):
                 data = torch.cat([data,batch],dim=0)
     return data 
 
+def kmeans(fes,num_cluster):
+    with torch.no_grad():
+        idx = torch.randint(0,fes.shape[0],(num_cluster,1))
+        clusters = fes[idx,:].squeeze(1)
+        mask = torch.ones(fes.shape[0],dtype=torch.bool) 
+        mask[idx] = False
+        samples = fes[mask,:]
+
+        for i in range(10):
+            dist = torch.cdist(clusters,samples)
+            assign = torch.argmin(dist,0)
+            for j in range(clusters.shape[0]):
+                if samples[assign==j,:].shape[0] != 0:
+                    clusters[j,:] = torch.mean(samples[assign==j,:],dim=0) 
+                else: 
+                    new_idx = torch.randint(0,clusters.shape[0],(1,1))
+                    clusters[j,:] = clusters[new_idx,:] + torch.randn(clusters[new_idx,:].shape).to(fes.device)*0.001
+        dist = torch.cdist(clusters,fes)
+        ky = torch.argmin(dist,0)
+        weight = 1 / torch.unique(ky,return_counts=True)[1]
+        return ky,weight
+
 def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,cuda,weight=None):
 
     xs,ys = xs.float().to(cuda),ys.to(cuda)
@@ -89,3 +111,4 @@ def print_learning(i,avg_acc,dataset_size,avg_loss,loader_size,best_acc):
     avg_loss = avg_loss/loader_size
     best_acc = avg_acc if avg_acc > best_acc else best_acc
     print("Progress " + str(i) + " Mean Training Loss: "+str(round(avg_loss.item(),3))+ " Acc "+str(round(avg_acc.item(),3)))
+    return best_acc
