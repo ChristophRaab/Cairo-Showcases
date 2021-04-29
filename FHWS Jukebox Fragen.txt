@@ -1,0 +1,98 @@
+Fragen, hauptsächlich ungeordnet:
+
+256 Eigenschaften, aber welche? Sind die Eigenschaften und ihre jeweiligen Werte einseh- 
+und nachvollziehbar? (z.B. in Tabellenform?)
+
+Welchen Input hat die KI? Die Tonspuren der Lieder oder eine Tabelle mit Eigenschaften?
+Wie kann ich mir das überwachte Lernen hier vorstellen? (gibt ja keine Label oder so, nehm ich an?)
+
+War ein solches Ergebnis zu erwarten (also war zu erwarten, dass die KI recht zuverlässig einzelne 
+Komponisten erkennt? Wurde so etwas schon einmal versucht? Vielleicht mit anderen Musikgenres?
+
+Welche Relevanz hat das Ergebnis? Wurden Musiker (Musikwissenschaftler? k.A.) hinzugezogen, 
+um das Ergebnis zu bewerten?
+
+Unüberwachte KI:
+Ergebnis recht unübersichtlich, war das zu erwarten? 
+Nur 64 Features gegenüber den 256 von Überwachter KI, warum?
+Welcher Algorithmus, bzw. welche Art Algorithmus wird benutzt?
+
+t-SNE: wann stoppen? Gewisse Anzahl Iterationen oder wenn die Darstellung der Daten möglichst 
+aussagekräftig ist? Würdest du 
+
+Bei Überwachte KI - Fokus Wolken: wurde das Ergebnis irgendwie gesteuert oder kann man davon ausgehen, 
+dass die KI einen Komponisten am Stil des Stückes erkennen kann?
+
+Beschriebene Datenvarietät zwischen einzelnen Modellen unterschiedlich, welche Varietät ist wünschenswert?
+Sollte eine möglichst hohe Datenvarietät erzielt werden, auf Kosten einer übersichtlichen Visualisierung?
+
+
+Konkret zu der Jukebox:
+
+Bin vielleicht mit den Fragen ursprünglich bisschen übers Ziel hinaus geschossen.
+Was Texte und so weiter angeht, hab ich keine Rechtschreibfehler oder so finden können.
+Scheint auch alles so zu funktionieren, wie es soll. Ist jetzt etwas übersichtlicher als
+die erste Version, die du geteilt hast, grade so Sachen wie t-SNE waren vielleicht nicht
+unbedingt nötig. Alles in allem ne coole Sache :thumbsup:
+
+Einziger Fehler bei der Präsentation
+der Tooltip des Buttons links oben, der 3d- und 2d-Steuerung erklärt, ragt nach links über das Bild
+hinaus und ist nicht ganz lesbar. Ist aber vielleicht auch nur ein Problem in meinem Browser (Firefox).
+Außerdem finde ich keine 2d-Ansicht, obwohl deren Steuerung erklärt wird, ist wahrscheinlch also nur ein Fehler im Text?
+
+
+Zweiter Versuch
+
+Gedanken zu "Zielgruppe, Philosophie, Relevanz, Wissenschaftstheorie und Sinn des Lebens" 
+
+######256 Eigenschaften, aber welche? Sind die Eigenschaften und ihre jeweiligen Werte einseh- 
+######und nachvollziehbar? (z.B. in Tabellenform?)
+ok, Anzahl an Eigenschaften wird nicht mehr angezeigt, ist quasi nicht so wichtig. 
+Bleibt für mich immer noch die Frage, ob die Eigenschaften für einen Menschen eine nachvollziehbare
+Bedeutung haben. (Das ist vielleicht eine ganz grundsätzliche Frage, die du vielleicht öfter hören
+wirst: unterscheidet die KI Eigenschaften und Muster oder whatever, die auch für einen Menschen
+verständlich wären? Hat jetzt natürlich konkret mit dieser Präsentation nichts zu tun.) 
+
+######Welchen Input hat die KI? Die Tonspuren der Lieder oder eine Tabelle mit Eigenschaften?
+Das würd mich immer noch interessieren, ich nehme aber an, ihr könnt die Stücke direkt einlesen und
+verarbeiten lassen? 
+
+######Wie kann ich mir das überwachte Lernen hier vorstellen? (gibt ja keine Label oder so, nehm ich an?)
+Vielleicht besonders interessant, weil überwachtes Lernen und unüberachtes Lernen sehr unterschiedliche
+Ergebnisse liefern.
+
+######War ein solches Ergebnis zu erwarten (also war zu erwarten, dass die KI recht zuverlässig einzelne 
+######Komponisten erkennt? Wurde so etwas schon einmal versucht? Vielleicht mit anderen Musikgenres?
+Generell ist vielleicht eher die Frage interessant: wie geht ihr an so eine Aufgabe heran? Einfach mal
+ausprobieren (ist ein ziemliches Understatement, aber vom Prinzip her) oder überlegt ihr euch vorher, was
+rauskommen müsste? Auch das hat jetzt zwar konkret nichts mit der Präsentation zu tun, fänd ich
+aber interessant.
+
+######Welche Relevanz hat das Ergebnis? Wurden Musiker (Musikwissenschaftler? k.A.) hinzugezogen, 
+######um das Ergebnis zu bewerten?
+Bin mir ziemlich sicher, dass diese Frage sehr häufig gestellt werden wird, wenn den Leuten klar wird, 
+was ihr gemacht habt.
+
+######Unüberwachte KI:
+######Ergebnis recht unübersichtlich, war das zu erwarten? 
+Auch hier wieder der Vergleich zwischen unüberwachtem und überwachtem Lernen. Wo ist der Unterschied,
+der solche Diskrepanzen rechtfertigt?
+######Nur 64 Features gegenüber den 256 von Überwachter KI, warum?
+Ok, ist wohl egal.
+######Welcher Algorithmus, bzw. welche Art Algorithmus wird benutzt?
+Ich seh ein, dass das nicht wirklich wichtig ist.
+
+######t-SNE: wann stoppen? Gewisse Anzahl Iterationen oder wenn die Darstellung der Daten möglichst 
+######aussagekräftig ist? 
+Hat sich ja erledigt, auch wenn ichs faszinierend fand, zuzusehen, wie die Daten sich im Laufe der 
+Iterationen verhalten haben.
+
+######Bei Überwachte KI - Fokus Wolken: wurde das Ergebnis irgendwie gesteuert oder kann man davon ausgehen, 
+######dass die KI einen Komponisten am Stil des Stückes erkennen kann?
+Scheint jetzt verbugt zu sein, könnte jetzt die Fehlermeldung abschreiben, aber das kriegst du selber
+bestimmt schneller raus. (in privatem Tab tritt der Fehler nicht auf)
+
+######Beschriebene Datenvarietät zwischen einzelnen Modellen unterschiedlich, welche Varietät ist wünschenswert?
+######Sollte eine möglichst hohe Datenvarietät erzielt werden, auf Kosten einer übersichtlichen Visualisierung?
+Und tschüss. Solche Details waren vielleicht etwas zu viel des Guten.
+

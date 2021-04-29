@@ -10329,7 +10329,7 @@ k[2],e.ops.push(m);else{k[2]&&e.ops.pop();e.trys.pop();continue}}m=b.call(a,e)}c
 (function(a){function b(g){for(var h=null,k=0,l=e;k<l.length;k++){var m=l[k];if(m in g&&""!==g[m]){h=g[m];break}}return null==h?null:+h}var c=0<=navigator.userAgent.toLowerCase().indexOf("firefox"),d=a.util.hasWebGLSupport()&&!c;a.TSNE_SAMPLE_SIZE=1E4;a.UMAP_SAMPLE_SIZE=5E3;a.PCA_SAMPLE_SIZE=5E4;a.PCA_SAMPLE_DIM=200;var e=["__next__","__seq_next__"];c=function(){function g(h,k){this.shuffledDataIndices=[];this.projections={};this.tSNEIteration=0;this.tSNEShouldPause=!1;this.tSNEShouldStop=!0;this.superviseInput=
 "";this.dim=[0,0];this.hasUmapRun=this.hasTSNERun=!1;this.points=h;this.shuffledDataIndices=a.util.shuffle(a.util.range(this.points.length));this.sequences=this.computeSequences(h);this.dim=[this.points.length,this.points[0].vector.length];this.spriteAndMetadataInfo=k}g.prototype.computeSequences=function(h){for(var k=new Int8Array(h.length),l={},m=[],n=0;n<h.length;n++)if(!k[n]){k[n]=1;var q=b(h[n].metadata);if(null!=q)if(q in l)q=l[q],q.pointIndices.unshift(n),l[n]=q;else{q={pointIndices:[]};l[n]=
 q;m.push(q);for(var p=n;h[p];)q.pointIndices.push(p),p=b(h[p].metadata),null!=p?k[p]=1:p=-1}}return m};g.prototype.projectionCanBeRendered=function(h){return"tsne"!==h?!0:0<this.tSNEIteration};g.prototype.getSubset=function(h){var k=this;h=(null!=h&&0<h.length?h.map(function(l){return k.points[l]}):this.points).map(function(l){return{metadata:l.metadata,index:l.index,vector:l.vector.slice(),projections:{}}});return new g(h,this.spriteAndMetadataInfo)};g.prototype.normalize=function(){var h=a.vector.centroid(this.points,
-function(m){return m.vector});if(null==h)throw Error("centroid should not be null");for(var k=0;k<this.points.length;++k){var l=this.points[k];l.vector=a.vector.sub(l.vector,h);0<a.vector.norm2(l.vector)&&a.vector.unit(l.vector)}};g.prototype.projectLinear=function(h,k){this.projections[k]=!0;this.points.forEach(function(l){l.projections[k]=a.vector.dot(l.vector,h)})};g.prototype.projectPCA=function(){var h=this;return null!=this.projections["pca-0"]?Promise.resolve(null):a.util.runAsyncTask("Berechne PCA...",
+function(m){return m.vector});if(null==h)throw Error("centroid should not be null");for(var k=0;k<this.points.length;++k){var l=this.points[k];l.vector=a.vector.sub(l.vector,h);0<a.vector.norm2(l.vector)&&a.vector.unit(l.vector)}};g.prototype.projectLinear=function(h,k){this.projections[k]=!0;this.points.forEach(function(l){l.projections[k]=a.vector.dot(l.vector,h)})};g.prototype.projectPCA=function(){var h=this;return null!=this.projections["pca-0"]?Promise.resolve(null):a.util.runAsyncTask("Lade Darstellung...",
 function(){var k=h.points[0].vector.length,l=h.shuffledDataIndices.map(function(r){return h.points[r].vector});k>a.PCA_SAMPLE_DIM&&(l=a.vector.projectRandom(l,a.PCA_SAMPLE_DIM));var m=l.slice(0,a.PCA_SAMPLE_SIZE),n=numeric.dot,q=numeric.transpose;k=numeric.svd;var p=numeric.div;n=n(q(m),m);m=p(n,m.length);m=k(m);p=m.S;for(k=n=0;k<p.length;++k)n+=p[k];for(k=0;k<p.length;++k)p[k]/=n;h.fracVariancesExplained=p;var t=m.U;l=l.map(function(r){for(var v=new Float32Array(10),u=0;10>u;u++){for(var w=0,x=0;x<
 r.length;x++)w+=r[x]*t[x][u];v[u]=w}return v});for(m=0;10>m;m++)for(p="pca-"+m,h.projections[p]=!0,k=0;k<l.length;k++)h.points[h.shuffledDataIndices[k]].projections[p]=l[k][m]})};g.prototype.projectTSNE=function(h,k,l,m){function n(){if(q.tSNEShouldStop)q.projections.tsne=!1,m(null),q.tsne=null,q.hasTSNERun=!1;else{if(!q.tSNEShouldPause){q.tsne.step();var r=q.tsne.getSolution();t.forEach(function(v,u){v=q.points[v];v.projections["tsne-0"]=r[u*l];v.projections["tsne-1"]=r[u*l+1];3===l&&(v.projections["tsne-2"]=
 r[u*l+2])});q.projections.tsne=!0;q.tSNEIteration++;m(q.tSNEIteration)}requestAnimationFrame(n)}}var q=this;this.hasTSNERun=!0;var p=Math.floor(3*h);this.tsne=new a.TSNE({epsilon:k,perplexity:h,dim:l});this.tsne.setSupervision(this.superviseLabels,this.superviseInput);this.tsne.setSuperviseFactor(this.superviseFactor);this.tSNEShouldStop=this.tSNEShouldPause=!1;this.tSNEIteration=0;var t=this.shuffledDataIndices.slice(0,a.TSNE_SAMPLE_SIZE);h=t.map(function(r){return q.points[r]});this.computeKnn(h,
@@ -13181,11 +13181,11 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   top: 25px;
 }
 
-#help-3d-icon {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
+// #help-3d-icon {
+//   position: absolute;
+//   top: 20px;
+//   left: 20px;
+// }
 
 #help3dDialog .main {
   margin: 0;
@@ -13240,21 +13240,6 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
 
       <paper-icon-button id="labels3DMode" alt="Enable/disable 3D labels mode" toggles icon="font-download"></paper-icon-button>
       <paper-tooltip for="labels3DMode" position="bottom" animation-delay="0" fit-to-visible-bounds>Aktivieren/Deaktivieren 3D Beschriftung</paper-tooltip>
-      <div class="status-bar-panel">
-        <div class="status-bar-entry">Lieder: <span class="numDataPoints">Lade...</span></div>
-        <div class="status-bar-entry" style="display:None;">Eigenschaften: <span class="dim">Lade...</span></div>
-        <div id="status-bar" class="status-bar-entry" style="display: none;"></div>
-      </div>
-      <div class="ink-fabs">
-        <paper-icon-button id="reset-zoom" class="ink-fab" alt="Reset zoom to fit all points" icon="home"></paper-icon-button>
-        <paper-tooltip for="reset-zoom" position="left" animation-delay="0">Auswahl zurücksetzen</paper-tooltip>
-      </div>
-    </div>
-    <div class="stage">
-      <div id="scatter">
-        <svg id="selector"></svg>
-      </div>
-      <vz-projector-metadata-card id="metadata-card"></vz-projector-metadata-card>
       <paper-icon-button raised onclick="help3dDialog.open()" icon="help-outline" id="help-3d-icon"></paper-icon-button>
       <paper-tooltip animation-delay="0" for="help-3d-icon">Hilfe bei der Interaktionssteuerung.</paper-tooltip>
       <paper-dialog id="help3dDialog" with-backdrop>
@@ -13270,6 +13255,22 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
           <div class="dismiss-dialog-note"> Zum Verlassen der Ansicht auf eine beliebige Stelle klicken.</div>
         </div>
       </paper-dialog>
+      <div class="status-bar-panel">
+        <div class="status-bar-entry">Lieder: <span class="numDataPoints">Lade...</span></div>
+        <div class="status-bar-entry" style="display:None;">Eigenschaften: <span class="dim">Lade...</span></div>
+        <div id="status-bar" class="status-bar-entry" style="display: none;"></div>
+      </div>
+      <div class="ink-fabs">
+        <paper-icon-button id="reset-zoom" class="ink-fab" alt="Reset zoom to fit all points" icon="home"></paper-icon-button>
+        <paper-tooltip for="reset-zoom" position="left" animation-delay="0">Auswahl zurücksetzen</paper-tooltip>
+      </div>
+    </div>
+    <div class="stage">
+      <div id="scatter">
+        <svg id="selector"></svg>
+      </div>
+      <vz-projector-metadata-card id="metadata-card"></vz-projector-metadata-card>
+      
     </div>
   </div>
   <div id="right-pane" class="ink-panel">
@@ -13360,7 +13361,7 @@ vz-projector {
     <div>FHWS Jukebox</div>
     <div class="icons">
       <a title="Documentation" target="_blank" href="[[documentationLink]]">
-        <paper-icon-button icon="help-outline"></paper-icon-button>
+        <paper-icon-button icon="info-outline"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
           Dokumentation aufrufen
         </paper-tooltip>
@@ -13369,6 +13370,12 @@ vz-projector {
         <paper-icon-button icon="bug-report"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
           Einen Fehler melden
+        </paper-tooltip>
+      </a>
+      <a title="Mail to" target="_blank" href="mailto:christoph.raab@fhws.de">
+        <paper-icon-button icon="markunread"></paper-icon-button>
+        <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
+          Email an Betreiber
         </paper-tooltip>
       </a>
     </div>
