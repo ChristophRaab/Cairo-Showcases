@@ -1,6 +1,21 @@
 import torch
 from torch import nn
 from torchvision import models
+import faiss
+import numpy as np 
+from pytorch_metric_learning import losses
+import copy
+def inv_lr_scheduler(optimizer, iter_num, gamma, power, lr=0.001, weight_decay=0.0005):
+    """Decay learning rate by a factor of 0.1 every lr_decay_epoch epochs."""
+    lr = lr * (1 + gamma * iter_num) ** (-power)
+    i=0
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr * param_group['lr_mult']
+        param_group['weight_decay'] = weight_decay * param_group['decay_mult']
+        i+=1
+
+    return optimizer
+
 
 
 def init_weights(m):
@@ -35,43 +50,41 @@ def features_dataset(loader,feature_extractor,args):
         feature_extractor.eval()
         data = torch.empty(0, args.bottleneck_dim).to(args.cuda)
         for (x,_) in loader:
-            with torch.set_grad_enabled(False):
-                feature_extractor.eval()
-                x = x.float().to(args.cuda)
-                batch = feature_extractor(x)
-                data = torch.cat([data,batch],dim=0)
+            x = x.float().to(args.cuda)
+            batch = feature_extractor(x)
+            data = torch.cat([data,batch],dim=0)
     return data 
 
-def kmeans(fes,num_cluster):
-    with torch.no_grad():
-        idx = torch.randint(0,fes.shape[0],(num_cluster,1))
-        clusters = fes[idx,:].squeeze(1)
-        mask = torch.ones(fes.shape[0],dtype=torch.bool) 
-        mask[idx] = False
-        samples = fes[mask,:]
+def kmeans(fes,num_cluster,iters=10):
+    idx = torch.randint(0,fes.shape[0],(num_cluster,1))
+    clusters = fes[idx,:].squeeze(1)
+    mask = torch.ones(fes.shape[0],dtype=torch.bool) 
+    mask[idx] = False
+    samples = fes[mask,:]
 
-        for i in range(10):
-            dist = torch.cdist(clusters,samples)
-            assign = torch.argmin(dist,0)
-            for j in range(clusters.shape[0]):
-                if samples[assign==j,:].shape[0] != 0:
-                    clusters[j,:] = torch.mean(samples[assign==j,:],dim=0) 
-                else: 
-                    new_idx = torch.randint(0,clusters.shape[0],(1,1))
-                    clusters[j,:] = clusters[new_idx,:] + torch.randn(clusters[new_idx,:].shape).to(fes.device)*0.001
-        dist = torch.cdist(clusters,fes)
-        ky = torch.argmin(dist,0)
-        weight = 1 / torch.unique(ky,return_counts=True)[1]
-        return ky,weight
+    for i in range(iters):
+        dist = torch.cdist(clusters,samples)
+        assign = torch.argmin(dist,0)
+        for j in range(clusters.shape[0]):
+            if samples[assign==j,:].shape[0] != 0:
+                clusters[j,:] = torch.mean(samples[assign==j,:],dim=0) 
+            else: 
+                new_idx = torch.randint(0,clusters.shape[0],(1,1))
+                clusters[j,:] = clusters[new_idx,:] + torch.randn(clusters[new_idx,:].shape).to(fes.device)*0.001
+    dist = torch.cdist(clusters,fes)
+    ky = torch.argmin(dist,0)
+    weight = 1 / torch.unique(ky,return_counts=True)[1]
+    return ky,weight
 
-def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,cuda,weight=None):
-
+def train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_acc,cuda,weight=None):
+    # optimizer = inv_lr_scheduler(optimizer,i,gamma=0.001,power=0.75)
     xs,ys = xs.float().to(cuda),ys.to(cuda)
 
     features_extractor.train(),classifier.train()
     optimizer.zero_grad() 
 
     fes = features_extractor(xs)
+    
     ls = classifier(fes)
     if weight is None:
         classifier_loss = nn.CrossEntropyLoss()(ls,ys)
@@ -86,9 +99,36 @@ def train_resnet(xs,ys,features_extractor,classifier,optimizer,avg_loss,avg_acc,
     avg_acc  = avg_acc + (preds == ys).sum()
     return optimizer,features_extractor,classifier,avg_loss,avg_acc
 
+def validation_epoch(validation_loader,features_extractor,classifier,i,dataset_size,loader_size,best_model,best_acc,args):
+    with torch.set_grad_enabled(False):
+        avg_loss = avg_acc  = 0.0
+        for (x,y) in validation_loader:
+            avg_loss,avg_acc = eval_resnet(x,y,features_extractor,classifier,avg_loss,avg_acc,args.cuda)
+    best_acc = print_learning(i,avg_acc,dataset_size,avg_loss,loader_size,best_acc)
+    best_model = copy.deepcopy([features_extractor]) if avg_acc > best_acc else best_model
+    return best_acc,best_model
 
-def train_resnet_metric(xs,ys,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,cuda):
+def eval_resnet(xs,ys,features_extractor,classifier,avg_loss,avg_acc,cuda,weight=None):
+    xs,ys = xs.float().to(cuda),ys.to(cuda)
 
+    features_extractor.eval(),classifier.eval()
+
+
+    fes = features_extractor(xs)
+    ls = classifier(fes)
+    if weight is None:
+        classifier_loss = nn.CrossEntropyLoss()(ls,ys)
+    else:
+        classifier_loss = nn.CrossEntropyLoss(weight)(ls,ys)
+    loss = classifier_loss
+
+    _,preds = nn.Softmax(1)(ls).detach().max(1)
+    avg_loss = avg_loss + loss
+    avg_acc  = avg_acc + (preds == ys).sum()
+    return avg_loss,avg_acc
+
+def train_resnet_metric(xs,ys,i,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,cuda):
+    optimizer = inv_lr_scheduler(optimizer,i,gamma=0.001,power=0.75)
     xs,ys = xs.float().to(cuda),ys.to(cuda)
 
     features_extractor.train(),classifier.train()
