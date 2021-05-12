@@ -1,4 +1,4 @@
-from os import path
+from os import path, sep
 from librosa import feature
 import pandas as pd
 import torch
@@ -48,15 +48,9 @@ def create_sprite(data):
     return data
 
 def sprite():
-    labels = []
-    metadata = []
     images = []
-    for file in glob.glob("preview/mp3/"+ '/**/*.mp3', recursive=True):
-
-        tag = eyed3.load(file).tag
-        artist = tag.artist.split("/")[0]
-        metadata.append([artist])
-        labels.append(artist)
+    df = pd.read_csv("metadata.tsv",sep="\t",header=0,index_col=0) 
+    for artist,_,_,_ in df.itertuples():
         input_img = cv2.imread("artist_image/"+artist.split(" ")[-1].lower()+".jpg")
         input_img_resize = cv2.resize(input_img, (32,32)) 
         images.append(input_img_resize)
@@ -141,7 +135,7 @@ def extract_playlist(id,name,ptype,sp):
         else:
             song_meta,download_url = song_meta_data(track_obj,name,album_name)
 
-        if download_url != None and song_meta != None:
+        if download_url != None and song_meta != None and song_meta not in ply_metadata:
             ply_metadata.append(song_meta)
             ply_label.append(song_meta[0])
 
@@ -177,7 +171,7 @@ def feature_extraction(path_playlists,sp,args):
 
     for i,name,ptype,url in playlists.itertuples():
         ply_raw, ply_data,ply_label,ply_metadata = extract_playlist(url,name,ptype,sp)
-        data_raw.append(ply_raw),data.append(ply_data),labels.append(ply_label),metadata.append(ply_metadata)
+        data_raw.extend(ply_raw),data.extend(ply_data),labels.extend(ply_label),metadata.extend(ply_metadata)
 
     le = LabelEncoder()
     le.fit(labels)
@@ -201,8 +195,8 @@ if __name__ == '__main__':
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=args.id,
                                                            client_secret=args.secret))
     sp.country_codes = ["DE"]
-    feature_extraction("playlists.csv",sp,args)
-  # sprite('/home/raabc/jukebox/data_generation/')
+    # feature_extraction("playlists.csv",sp,args)
+    sprite()
 
   # from sklearn.decomposition import PCA
   # from sklearn.preprocessing import StandardScaler

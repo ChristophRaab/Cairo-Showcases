@@ -1,3 +1,4 @@
+from data_generation.center_loss import CenterLoss, slda
 import torch
 from torch import nn
 from torchvision import models
@@ -30,7 +31,7 @@ def init_weights(m):
         nn.init.xavier_normal_(m.weight)
         nn.init.zeros_(m.bias)
 
-def create_feature_extractor():
+def create_spectral_feature_extractor():
     model_resnet = models.resnet50(pretrained=True,)
     conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
     bn1 = model_resnet.bn1
@@ -90,7 +91,7 @@ def train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_ac
         classifier_loss = nn.CrossEntropyLoss()(ls,ys)
     else:
         classifier_loss = nn.CrossEntropyLoss(weight)(ls,ys)
-    loss = classifier_loss
+    loss = classifier_loss # + losses.TripletMarginLoss()(fes,ys)
     loss.backward()
     optimizer.step()
 
@@ -127,8 +128,8 @@ def eval_resnet(xs,ys,features_extractor,classifier,avg_loss,avg_acc,cuda,weight
     avg_acc  = avg_acc + (preds == ys).sum()
     return avg_loss,avg_acc
 
-def train_resnet_metric(xs,ys,i,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,cuda):
-    optimizer = inv_lr_scheduler(optimizer,i,gamma=0.001,power=0.75)
+def train_resnet_metric(xs,ys,i,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,cuda,weight):
+    # optimizer = inv_lr_scheduler(optimizer,i,gamma=0.001,power=0.75)
     xs,ys = xs.float().to(cuda),ys.to(cuda)
 
     features_extractor.train(),classifier.train()
@@ -137,7 +138,7 @@ def train_resnet_metric(xs,ys,i,features_extractor,classifier,metricl,optimizer,
     fes = features_extractor(xs)
     ls = classifier(fes)
     
-    loss = nn.CrossEntropyLoss()(ls,ys) + metricl(fes,ys)
+    loss = nn.CrossEntropyLoss()(ls,ys) + losses.TripletMarginLoss()(fes,ys)
     loss.backward()
     optimizer.step()
     

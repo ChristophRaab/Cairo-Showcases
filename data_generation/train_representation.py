@@ -23,7 +23,7 @@ from itertools import cycle
 from pytorch_metric_learning import miners, losses
 np.random.seed(0)
 torch.manual_seed(0)
-from data_generation.helpers import eval_resnet, features_dataset,init_weights,train_resnet,create_feature_extractor,train_resnet_metric,print_learning,kmeans, validation_epoch
+from data_generation.helpers import eval_resnet, features_dataset,init_weights,train_resnet,create_spectral_feature_extractor,train_resnet_metric,print_learning,kmeans, validation_epoch
 from data_generation.center_loss import CenterLoss, slda
 import argparse
 from sklearn import cluster
@@ -46,7 +46,7 @@ def make_parser():
     parser.add_argument('--num_epochs', type=int, default=100, help="Training Epochs")
     parser.add_argument('--eval_epoch', type=int, default=5, help="Evaluation Cycle")
     parser.add_argument('--mode', type=str, default="supervised", help="Network Mode" )
-    parser.add_argument('--path', type=str, default="/home/raabc/Jukebox", help="Network Mode" )
+    parser.add_argument('--path', type=str, default="/home/raabc/Jukebox/data_generation/", help="Network Mode" )
 
     return parser.parse_args()
 
@@ -75,8 +75,8 @@ def train_representation(args):
     train_dataset_size,validation_dataset_size = len(train_dataset),len(validation_dataset)
     num_classes = len(torch.unique(train_dataset.tensors[1]))
 
-    features_extractor = nn.Sequential(create_feature_extractor(),nn.Flatten(),nn.Linear(2048,args.bottleneck_dim),nn.BatchNorm1d(args.bottleneck_dim)).to(args.cuda)
-    classifier = nn.Sequential(nn.Linear(args.bottleneck_dim,num_classes)).to(args.cuda)
+    features_extractor = nn.Sequential(create_spectral_feature_extractor(),nn.Flatten(),nn.Linear(2048,args.bottleneck_dim),nn.BatchNorm1d(args.bottleneck_dim)).to(args.cuda)
+    classifier = nn.Sequential(nn.Dropout(),nn.Linear(args.bottleneck_dim,num_classes)).to(args.cuda)
     classifier.apply(init_weights)
     metricl = losses.NCALoss()
 
@@ -100,32 +100,37 @@ def train_representation(args):
                 best_acc,best_model = validation_epoch(validation_loader,features_extractor,classifier,i,validation_dataset_size,validation_loader_size,best_model,best_acc,args)
     else:
         for i in range(args.num_epochs):
-            with torch.set_grad_enabled(False):
-                features = torch.empty(0,args.bottleneck_dim,device=args.cuda)
-                features = features_dataset(extract_loader,features_extractor,args)
+            # with torch.set_grad_enabled(False):
+                # features = torch.empty(0,args.bottleneck_dim,device=args.cuda)
+                # features = features_dataset(extract_loader,features_extractor,args)
 
-                # ky,weight = kmeans(features,num_classes,50)
-                features = features.detach().cpu().numpy()
-                ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
-                ky =torch.Tensor(ky).to(args.cuda).long()
-                weight = 1 / torch.unique(ky,return_counts=True)[1]
+                # # ky,weight = kmeans(features,num_classes,50)
+                # features = features.detach().cpu().numpy()
+                # ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
+                # ky =torch.Tensor(ky).to(args.cuda).long()
+                # weight = 1 / torch.unique(ky,return_counts=True)[1]
 
-            train_dataset = TensorDataset(torch.tensor(data,device=args.cuda),ky)
-            train_loader = DataLoader(train_dataset,shuffle=True,num_workers=args.num_workers,batch_size=args.batch_size)
+            # cluster_dataset_dataset = TensorDataset(torch.tensor(data,device=args.cuda),ky)
+            # cluster_loader = DataLoader(cluster_dataset_dataset,shuffle=True,num_workers=args.num_workers,batch_size=args.batch_size)
 
-            with torch.set_grad_enabled(True):
-                avg_loss = avg_acc  = 0.0
-                for (xs,ys) in train_loader:
-                    optimizer,features_extractor,loss_func,avg_loss,avg_acc= train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_acc,args.cuda,weight)
+            avg_loss = avg_acc  = 0.0
+            for (xs,ys) in train_loader:
+                with torch.set_grad_enabled(False):
+                    features = features_extractor(xs.float().to(args.cuda)).detach().cpu().numpy()
+                    ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
+                    ky =torch.Tensor(ky).to(args.cuda).long()
+                    weight = 1 / torch.unique(ky,return_counts=True)[1]
+                with torch.set_grad_enabled(True):
+                    optimizer,features_extractor,loss_func,avg_loss,avg_acc= train_resnet_metric(xs,ky,i,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,args.cuda,weight)
             if i % 5 == 0:
                 best_acc,best_model = validation_epoch(validation_loader,features_extractor,classifier,i,validation_dataset_size,validation_loader_size,best_model,best_acc,args)
     
     print("Best:"+str(best_acc))
     data = features_dataset(extract_loader,features_extractor,args)
     # data = (data - data.mean(0)) / data.std(0)
-    data_max,_ = torch.max(data,0)
-    data_min,_ = torch.min(data,0)
-    data = (data-data_min) / (data_max - data_min)
+    # data_max,_ = torch.max(data,0)
+    # data_min,_ = torch.min(data,0)
+    # data = (data-data_min) / (data_max - data_min)
     # data = torch.nan_to_num(data,0)
     data.detach().cpu().numpy().tofile("../data_storage/resnet_"+args.mode+".bytes")
 
