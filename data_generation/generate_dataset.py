@@ -111,7 +111,7 @@ def song_meta_data(track_obj,artist_name,album_name):
         name = track["name"].replace("/"," ")
         album = track["album"]["name"].replace("/"," ") if album_name == None else album_name
         preview_url = track["preview_url"]
-        external_url = track["external_urls"]["spotify"]
+        external_url = "https://open.spotify.com/embed/track/"+track["uri"].split(":")[-1]
         return [artist,name,album,external_url],preview_url
     else:
         return (None,None)
@@ -195,8 +195,8 @@ if __name__ == '__main__':
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=args.id,
                                                            client_secret=args.secret))
     sp.country_codes = ["DE"]
-    # feature_extraction("playlists.csv",sp,args)
-    sprite()
+    feature_extraction("playlists.csv",sp,args)
+    # sprite()
 
   # from sklearn.decomposition import PCA
   # from sklearn.preprocessing import StandardScaler
