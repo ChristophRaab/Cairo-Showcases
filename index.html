@@ -5279,11 +5279,16 @@ key:c});void 0!==d&&d!==b.value?b.value=d:this.value!==b.value&&(this.value=b.va
 <script>//~~WEBPATH~~/iron-flex-layout/iron-flex-layout.html.js
 var La=document.createElement("style");La.textContent="[hidden] { display: none !important; }";document.head.appendChild(La);
 </script>
+
 <custom-style>
   <style is="custom-style">
     [hidden] {
       display: none !important;
     }
+	canvas {
+	object-fit: contain !important;
+	min-height: 500px;
+	}
   </style>
 </custom-style>
 
@@ -13140,7 +13145,10 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
 .status-bar-panel {
   display: flex;
   align-items: center;
+
 }
+
+
 
 .status-bar-entry {
   border-left: 1px solid rgba(0, 0, 0, 0.5);
@@ -13189,11 +13197,11 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   top: 25px;
 }
 
-// #help-3d-icon {
-//   position: absolute;
-//   top: 20px;
-//   left: 20px;
-// }
+#help-3d-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 
 #help3dDialog .main {
   margin: 0;
@@ -13218,6 +13226,78 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
   display: flex;
   align-items: center;
   --paper-toast-color: #eeff41;
+}
+
+
+#right-pane {
+	overflow: auto !important;
+}
+
+@media screen and (max-width: 820px){
+
+	
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	
+	#container.vz-projector {
+		display: block;
+	}
+	
+	canvas {
+		object-fit: contain;
+	}
+	
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	
+}
+@media screen and (max-width: 600px){
+	/*#left-pane {
+	  display: block !important;
+	  min-width: 100%;
+	  border-right: 1px solid rgba(0, 0, 0, 0.1);
+	  background: #fafafa;
+	}*/
+	
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	#right-pane {
+		overflow: hidden !important;
+	}
+	
+}
+canvas {
+	object-fit: contain;
+}
+	
+@media screen and (max-width: 820px){
+  .status-bar-panel {
+    margin-left: 10px   !important;
+  }
+  #help-3d-icon {
+  position: absolute;
+    top: 10px  !important;
+    left: 10px  !important;
+  }
+  .paper-icon-button-0 {
+    left: 15px !important;
+  } 
+
+
 }
 </style>
 <paper-dialog id="notification-dialog" modal>
@@ -13346,7 +13426,15 @@ g);k=new a.Projection(e.selectedProjection,h,g.length,this.dataSet);this.setProj
   font-size: 18px;
   font-weight: 300;
 }
-
+#appbar.vz-projector-app {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 11px 0 24px;
+    height: 60px;
+    color: white;
+    background: #EC6F05;
+}
 .icons {
   display: flex;
 }
@@ -13362,9 +13450,85 @@ vz-projector {
 #container {
   height: 100%;
 }
+
+#right-pane {
+overflow: scroll !important;
+}
+@media screen and (max-width: 820px){
+
+	
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	vz-projector {
+	  height: 3600px;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	
+}
+
+@media screen and (max-width: 600px){
+	/*#left-pane {
+	  display: block !important;
+	  min-width: 100%;
+	  border-right: 1px solid rgba(0, 0, 0, 0.1);
+	  background: #fafafa;
+	}*/
+	
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	vz-projector {
+	  height: 3600px;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+}
+
 </style>
 
 <div id="container">
+	<span class="mobile top" title="Nach oben scrollen" style="position: fixed;bottom: 5px;right: 11px;    z-index: 999999999;background: #EC6F05;border-radius: 50px;color: white;" onclick="scrollto('appbar');">
+		<paper-icon-button icon="arrow-upward"></paper-icon-button>
+		<paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
+		  Nach oben scrollen
+		</paper-tooltip>
+	</span>
   <div id="appbar">
     <div>FHWS Jukebox</div>
     <div class="icons">
@@ -13386,7 +13550,36 @@ vz-projector {
           Email an Betreiber
         </paper-tooltip>
       </a>
+	  <span class="mobile filter" title="Zu den Filtern" onclick="scrollto('right-pane');">
+        <paper-icon-button icon="lightbulb-outline"></paper-icon-button>
+        <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
+          Zu den Filtern
+        </paper-tooltip>
+      </span>
     </div>
+	
+	<style>
+		.mobile, .mobile {
+			display: none;
+		}
+		@media screen and (max-width: 820px){
+			.mobile {
+				display: block;
+			}
+			
+		}
+	</style>
+	<script>
+		function scrollto(to){
+			window.scroll({
+				behavior: 'smooth',
+				left: 0,
+				top: document.getElementById(to).offsetTop
+			  });
+			
+			return false;
+		}
+	</script>
   </div>
   <vz-projector route-prefix="[[routePrefix]]" serving-mode="[[servingMode]]" projector-config-json-path="[[projectorConfigJsonPath]]" page-view-logging="[[pageViewLogging]]" event-logging="[[eventLogging]]">
   </vz-projector>
