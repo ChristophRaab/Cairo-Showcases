@@ -5,5 +5,4 @@
 # features.tofile(board_data+data_path)
 
 #Standalone:
-#python -m http.server 8080 --bind 194.95.221.186
 #sudo /home/raab/miniconda3/envs/mozart/bin/python webserver.py
