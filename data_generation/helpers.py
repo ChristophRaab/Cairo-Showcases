@@ -2,7 +2,7 @@ from data_generation.center_loss import CenterLoss, slda
 import torch
 from torch import nn
 from torchvision import models
-import faiss
+from torch.nn.functional import one_hot
 import numpy as np 
 from pytorch_metric_learning import losses
 import copy
@@ -90,14 +90,15 @@ def train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_ac
     if weight is None:
         classifier_loss = nn.CrossEntropyLoss()(ls,ys)
     else:
-        classifier_loss = nn.CrossEntropyLoss(weight)(ls,ys)
-    loss = classifier_loss # + losses.TripletMarginLoss()(fes,ys)
+        classifier_loss = nn.CrossEntropyLoss()(ls,ys) + losses.NCALoss()(fes,ys)
+    loss = classifier_loss # 
     loss.backward()
     optimizer.step()
 
     _,preds = nn.Softmax(1)(ls).detach().max(1)
     avg_loss = avg_loss + loss
     avg_acc  = avg_acc + (preds == ys).sum()
+    # print("Progress " + str(i) + " Mean Validation Loss: "+str(round(avg_loss.item(),3))+ " Acc "+str(round(avg_acc.item(),3)))
     return optimizer,features_extractor,classifier,avg_loss,avg_acc
 
 def validation_epoch(validation_loader,features_extractor,classifier,i,dataset_size,loader_size,best_model,best_acc,args):
@@ -151,5 +152,9 @@ def print_learning(i,avg_acc,dataset_size,avg_loss,loader_size,best_acc):
     avg_acc = avg_acc/dataset_size
     avg_loss = avg_loss/loader_size
     best_acc = avg_acc if avg_acc > best_acc else best_acc
-    print("Progress " + str(i) + " Mean Training Loss: "+str(round(avg_loss.item(),3))+ " Acc "+str(round(avg_acc.item(),3)))
+    print("Progress " + str(i) + " Mean Validaiton Loss: "+str(round(avg_loss.item(),3))+ " Acc "+str(round(avg_acc.item(),3)))
     return best_acc
+
+def entropy(p):
+    p = torch.nn.functional.softmax(p,dim=1)
+    return -torch.mean(torch.sum(p * torch.log(p+1e-5), 1))

@@ -1,4 +1,5 @@
 from __future__ import print_function, division
+from typing import no_type_check_decorator
 from numpy.lib.utils import source
 import sys
 from sklearn.utils import validation
@@ -26,10 +27,15 @@ torch.manual_seed(0)
 from data_generation.helpers import eval_resnet, features_dataset,init_weights,train_resnet,create_spectral_feature_extractor,train_resnet_metric,print_learning,kmeans, validation_epoch
 from data_generation.center_loss import CenterLoss, slda
 import argparse
-from sklearn import cluster
+from sklearn import cluster,manifold,decomposition
+from sklearn.manifold import TSNE
 
 
-
+def generate_labels(x,n_clusters):
+    x = np.reshape(x,(x.shape[0],-1))
+    sc = cluster.KMeans(n_clusters=n_clusters,n_jobs=-1)
+    l =  sc.fit_predict(x)
+    return l.astype(np.long)
 
 def boolean_string(s):
     if s not in {'False', 'True'}:
@@ -53,6 +59,10 @@ def make_parser():
 def train_representation(args):
 
     data = np.load(args.path+'/classicalmusic_data.npy')
+
+    # if args.mode == "unsupervised":
+    #     label = generate_labels(data,15)
+    # else:
     label = np.load(args.path+'/classicalmusic_labels.npy')
 
     l = data.shape[0]
@@ -67,9 +77,9 @@ def train_representation(args):
     validation_dataset = TensorDataset(validation_data,vallidation_label) # create your datset
     complete_dataset = TensorDataset(torch.tensor(data),torch.tensor(label))
 
-    train_loader = DataLoader(train_dataset,shuffle=True,num_workers=args.num_workers,batch_size=args.batch_size)
-    validation_loader = DataLoader(validation_dataset,shuffle=True,num_workers=args.num_workers,batch_size=args.batch_size)
-    extract_loader = DataLoader(complete_dataset,shuffle=False,num_workers=args.num_workers,batch_size=args.batch_size)
+    train_loader = DataLoader(train_dataset,shuffle=True,num_workers=0,batch_size=args.batch_size)
+    validation_loader = DataLoader(validation_dataset,shuffle=True,num_workers=0,batch_size=args.batch_size)
+    extract_loader = DataLoader(complete_dataset,shuffle=False,num_workers=0,batch_size=args.batch_size)
 
     train_loader_size,extract_loader_size,validation_loader_size = len(train_loader),len(extract_loader),len(validation_loader)
     train_dataset_size,validation_dataset_size = len(train_dataset),len(validation_dataset)
@@ -78,13 +88,12 @@ def train_representation(args):
     features_extractor = nn.Sequential(create_spectral_feature_extractor(),nn.Flatten(),nn.Linear(2048,args.bottleneck_dim),nn.BatchNorm1d(args.bottleneck_dim)).to(args.cuda)
     classifier = nn.Sequential(nn.Dropout(),nn.Linear(args.bottleneck_dim,num_classes)).to(args.cuda)
     classifier.apply(init_weights)
-    metricl = losses.NCALoss()
 
     features_extractor[-2].apply(init_weights)
     optimizer = optim.Adam(
         [{'params': features_extractor[:-2].parameters(),"lr_mult":1,'decay_mult':2},
-        {'params': features_extractor[-2:].parameters(),'lr':args.lr*10,"lr_mult":10,'decay_mult':2},
-        {'params': classifier.parameters(),'lr':args.lr*10,"lr_mult":10,'decay_mult':2}],
+        {'params': features_extractor[-2:].parameters(),"lr":10*args.lr,"lr_mult":10,'decay_mult':2},
+        {'params': classifier.parameters(),"lr":10*args.lr,'decay_mult':2}],
         lr=args.lr,weight_decay=0.0005)
 
     features_extractor.train(),classifier.train()
@@ -95,43 +104,34 @@ def train_representation(args):
             with torch.set_grad_enabled(True):
                 avg_loss = avg_acc  = 0.0
                 for (xs,ys) in train_loader:
-                    optimizer,features_extractor,loss_func,avg_loss,avg_acc= train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_acc,args.cuda)
+                    optimizer,features_extractor,classifier,avg_loss,avg_acc= train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_acc,args.cuda)
             if i % 5 == 0:
                 best_acc,best_model = validation_epoch(validation_loader,features_extractor,classifier,i,validation_dataset_size,validation_loader_size,best_model,best_acc,args)
     else:
         for i in range(args.num_epochs):
-            # with torch.set_grad_enabled(False):
-                # features = torch.empty(0,args.bottleneck_dim,device=args.cuda)
-                # features = features_dataset(extract_loader,features_extractor,args)
+            with torch.set_grad_enabled(False):
+                features = torch.empty(0,args.bottleneck_dim,device=args.cuda)
+                features = features_dataset(extract_loader,features_extractor,args)
 
-                # # ky,weight = kmeans(features,num_classes,50)
-                # features = features.detach().cpu().numpy()
-                # ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
-                # ky =torch.Tensor(ky).to(args.cuda).long()
-                # weight = 1 / torch.unique(ky,return_counts=True)[1]
+                features = features.detach().cpu().numpy()
+                ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
+                ky =torch.Tensor(ky).to(args.cuda).long()
+                weight = 1 / torch.unique(ky,return_counts=True)[1]
 
-            # cluster_dataset_dataset = TensorDataset(torch.tensor(data,device=args.cuda),ky)
-            # cluster_loader = DataLoader(cluster_dataset_dataset,shuffle=True,num_workers=args.num_workers,batch_size=args.batch_size)
+            cluster_dataset = TensorDataset(torch.tensor(data,device=args.cuda),ky)
+            cluster_loader = DataLoader(cluster_dataset,shuffle=True,num_workers=0,batch_size=args.batch_size)
 
-            avg_loss = avg_acc  = 0.0
-            for (xs,ys) in train_loader:
-                with torch.set_grad_enabled(False):
-                    features = features_extractor(xs.float().to(args.cuda)).detach().cpu().numpy()
-                    ky = cluster.KMeans(n_clusters=num_classes).fit_predict(features)
-                    ky =torch.Tensor(ky).to(args.cuda).long()
-                    weight = 1 / torch.unique(ky,return_counts=True)[1]
-                with torch.set_grad_enabled(True):
-                    optimizer,features_extractor,loss_func,avg_loss,avg_acc= train_resnet_metric(xs,ky,i,features_extractor,classifier,metricl,optimizer,avg_loss,avg_acc,args.cuda,weight)
+            train_iters = 5 if ky.unique().size(0) == 15 else 1
+            for j in range(train_iters):
+                avg_loss = avg_acc  = 0.0
+                for (xs,ys) in cluster_loader:
+                    with torch.set_grad_enabled(True):
+                        optimizer,features_extractor,classifier,avg_loss,avg_acc= train_resnet(xs,ys,i,features_extractor,classifier,optimizer,avg_loss,avg_acc,args.cuda,weight)
             if i % 5 == 0:
-                best_acc,best_model = validation_epoch(validation_loader,features_extractor,classifier,i,validation_dataset_size,validation_loader_size,best_model,best_acc,args)
+                best_acc,best_model = validation_epoch(cluster_loader,features_extractor,classifier,i,len(cluster_dataset),len(cluster_loader),best_model,best_acc,args)
     
     print("Best:"+str(best_acc))
-    data = features_dataset(extract_loader,features_extractor,args)
-    # data = (data - data.mean(0)) / data.std(0)
-    # data_max,_ = torch.max(data,0)
-    # data_min,_ = torch.min(data,0)
-    # data = (data-data_min) / (data_max - data_min)
-    # data = torch.nan_to_num(data,0)
+    data = features_dataset(extract_loader,best_model[0],args)
     data.detach().cpu().numpy().tofile("../data_storage/resnet_"+args.mode+".bytes")
 
 
