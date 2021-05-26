@@ -1,6 +1,9 @@
 {
-    "python.pythonPath": "C:\\Users\\chris\\.conda\\envs\\pytorch\\python.exe",
+    "python.pythonPath": "/home/raabc/miniconda3/envs/mozart/bin/python",
     "python.linting.enabled": true,
     "python.languageServer": "Pylance",
-
+    "python.analysis.extraPaths": ["/home/raabc/Jukebox/"],
+    "remote.autoForwardPortsSource": "output",
+    "remote.autoForwardPorts": true,
+    "remote.restoreForwardedPorts": false
 }
