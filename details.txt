@@ -7,3 +7,6 @@
 #Standalone:
 python -m http.server 8080 
 #sudo /home/raab/miniconda3/envs/mozart/bin/python webserver.py
+
+# Update webserver
+sudo cp index.html /var/www/html/ && sudo service apache2 restart
