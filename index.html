@@ -12601,8 +12601,13 @@ zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}i
 };
 d.prototype.compute_iframe=function(metadata,index,value){
   if (index == 3) {
-     this.$$("#spotdiv").innerHTML=`<iframe id="spot"  src=`+ value + ` style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>`}
-  else { return ``} 
+      if(value.includes(".mp3")) {
+        this.$$("#spotdiv").innerHTML=`	<audio id="audio_with_controls" controls src="/new/`+value+`" type="audio/mp3" style="width: 100%;"></audio>`
+      }
+      else {
+        this.$$("#spotdiv").innerHTML=`<iframe id="spot"  src=`+ value + ` style="border: 0; width: 100%; height: 80px;" allowfullscreen allow="encrypted-media"></iframe>`
+      }}
+    else { return ``} 
 };
 d.prototype._toggleMetadataContainer=function(){this.$$("#metadata-container").toggle();this.isCollapsed=!this.isCollapsed;this.set("collapseIcon",this.isCollapsed?
 "expand-more":"expand-less")};d.prototype.updateMetadata=function(e){this.pointMetadata=e;this.hasMetadata=null!=e;if(e){var g=[],h;for(h in e)e.hasOwnProperty(h)&&g.push({key:h,value:e[h]});this.metadata=g;this.label=""+this.pointMetadata[this.labelOption]}};d.prototype.setLabelOption=function(e){this.labelOption=e;this.pointMetadata&&(this.label=""+this.pointMetadata[this.labelOption])};return d}(a.MetadataCardPolymer);a.MetadataCard=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
@@ -13696,7 +13701,7 @@ Polymer({is:"vz-projector-app",properties:{pageViewLogging:{type:Boolean,value:!
   </style>
 
 <body>
-  <vz-projector-app documentation-link="https://christophraab.github.io/Jukebox/" bug-report-link="https://github.com/ChristophRaab/Jukebox/issues" serving-mode="demo" projector-config-json-path="data_storage/oss_demo_projector_config.json" page-view-logging>
+  <vz-projector-app documentation-link="https://christophraab.github.io/Jukebox/" bug-report-link="https://github.com/ChristophRaab/Jukebox/issues" serving-mode="demo" projector-config-json-path="data_storage/projector_config.json" page-view-logging>
   </vz-projector-app>
 
 
