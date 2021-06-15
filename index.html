@@ -13263,6 +13263,32 @@ a.ProjectionsPanel=b;document.registerElement(b.prototype.is,b)})(wc||(wc={}));
 	}
 	
 }
+@media screen and (max-width:  1668) and (orientation: portrait) {
+  #help-3d-icon.vz-projector {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+	
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	
+	#container.vz-projector {
+		display: block;
+	}
+	
+	canvas {
+		object-fit: contain;
+	}
+	
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	
+}
+
 @media screen and (max-width: 600px){
 	/*#left-pane {
 	  display: block !important;
@@ -13294,6 +13320,21 @@ canvas {
 }
 	
 @media screen and (max-width: 820px){
+  .status-bar-panel {
+    margin-left: 10px   !important;
+  }
+  #help-3d-icon {
+  position: absolute;
+    top: 10px  !important;
+    left: 10px  !important;
+  }
+  .paper-icon-button-0 {
+    left: 15px !important;
+  } 
+
+
+}
+@media screen and (max-width:  1668) and (orientation: portrait) {
   .status-bar-panel {
     margin-left: 10px   !important;
   }
@@ -13493,7 +13534,35 @@ overflow: scroll !important;
 	}
 	
 }
-
+@media screen and (max-width:  1668) and (orientation: portrait) {
+  
+	#right-pane {
+	  display: block !important;
+	  min-width: 100%;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	vz-projector {
+	  height: 3600px;
+	}
+	#container.vz-projector {
+		display: block;
+	}
+	canvas {
+		object-fit: contain;
+	}
+	#main.vz-projector .stage.vz-projector,#scatter.vz-projector {
+		position: relative !important;
+	}
+	
+}
 @media screen and (max-width: 600px){
 	/*#left-pane {
 	  display: block !important;
@@ -13573,6 +13642,12 @@ overflow: scroll !important;
 		}
 		@media screen and (max-width: 820px){
 			.mobile {
+				display: block;
+			}
+			
+		}
+    @media screen and (max-width:  1668) and (orientation: portrait) {
+    .mobile {
 				display: block;
 			}
 			
