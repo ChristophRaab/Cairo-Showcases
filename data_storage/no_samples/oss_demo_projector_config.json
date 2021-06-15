@@ -1,0 +1,25 @@
+{
+  "embeddings": [
+    {
+      "tensorName": "Überwachte KI",
+      "tensorShape": [479, 3],
+      "tensorPath": "data_storage/resnet_supervised.bytes",
+      "metadataPath": "data_storage/metadata.tsv",
+      "sprite": {
+        "imagePath": "data_storage/sprite.png",
+        "singleImageDim": [32, 32]
+      }
+    },
+    {
+      "tensorName": "Unüberwachte KI",
+      "tensorShape": [479, 3],
+      "tensorPath": "data_storage/resnet_unsupervised.bytes",
+      "metadataPath": "data_storage/metadata.tsv",
+      "sprite": {
+        "imagePath": "data_storage/sprite.png",
+        "singleImageDim": [32, 32]
+      }
+    }],
+
+  "modelCheckpointPath": "FHWS Jukebox"
+}
