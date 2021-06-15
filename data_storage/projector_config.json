@@ -3,20 +3,20 @@
       {
         "tensorName": "Überwachte KI",
         "tensorShape": [492, 3],
-        "tensorPath": "resnet_supervised.bytes",
-        "metadataPath": "metadata.tsv",
+        "tensorPath": "data_storage/resnet_supervised.bytes",
+        "metadataPath": "data_storage/metadata.tsv",
         "sprite": {
-          "imagePath": "sprite.png",
+          "imagePath": "data_storage/sprite.png",
           "singleImageDim": [32, 32]
         }
       },
       {
         "tensorName": "Unüberwachte KI",
         "tensorShape": [492, 3],
-        "tensorPath": "resnet_unsupervised.bytes",
-        "metadataPath": "metadata.tsv",
+        "tensorPath": "data_storage/resnet_unsupervised.bytes",
+        "metadataPath": "data_storage/metadata.tsv",
         "sprite": {
-          "imagePath": "sprite.png",
+          "imagePath": "data_storage/sprite.png",
           "singleImageDim": [32, 32]
         }
       }],
