@@ -13419,8 +13419,10 @@ canvas {
   <div id="right-pane" class="ink-panel">
     <div class="ink-panel-content active">
       <vz-projector-data-panel id="data-panel"></vz-projector-data-panel>
-      <div class="title style-scope vz-projector-data-panel">Werkzeuge</div>
-      <vz-projector-inspector-panel id="inspector-panel"></vz-projector-inspector-panel>
+      <div class="title style-scope vz-projector-data-panel">Impressium und Datenschutz</div>
+      <div class="title style-scope vz-projector-data-panel vz-projector" style="height: auto;border-bottom: 0px;font-weight: 300;margin-top: 5px;">         Christoph Raab. Center for Artificial Intelligence and Robotics (CAIRO). Hochschule für angewandte Wissenschaften Würzburg-Schweinfurt (FHWS.) Sanderheinrichsleitenweg 21 in 97074 Würzburg. Verantwortlich für Inhalt auf style.fiw.fhws.de. 
+         Kontakt: christoph.raab@fhws.de. Datenschutz gemäß https://www.fhws.de/service/datenschutz/ </div>
+      <vz-projector-inspector-panel style="display:None;" id="inspector-panel"></vz-projector-inspector-panel>
     </div>
     <div id="bookmark-panel-container" style="display:None">
       <vz-projector-bookmark-panel id="bookmark-panel"></vz-projector-bookmark-panel>
@@ -13615,7 +13617,7 @@ overflow: scroll !important;
   <div id="appbar">
     <div>FHWS Jukebox</div>
     <div class="icons">
-      <a title="Documentation" target="_blank" href="[[documentationLink]]">
+      <a title="Documentation" style="display:None;" target="_blank" href="[[documentationLink]]">
         <paper-icon-button icon="info-outline"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
           Dokumentation aufrufen
@@ -13627,7 +13629,7 @@ overflow: scroll !important;
           Einen Fehler melden
         </paper-tooltip>
       </a>
-      <a title="Mail to" target="_blank" href="mailto:mozart.fiw@fhws.de">
+      <a title="Mail to" style="display:None;" target="_blank" href="mailto:mozart.fiw@fhws.de">
         <paper-icon-button icon="markunread"></paper-icon-button>
         <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
           Email an Betreiber
@@ -13699,7 +13701,23 @@ Polymer({is:"vz-projector-app",properties:{pageViewLogging:{type:Boolean,value:!
       height: 100%;
     }
   </style>
+  <div id="contextMenu" class="centered custom-select" style="display: none"> 
+</div> 
 
+<script>
+   document.onclick = hideMenu; 
+   document.oncontextmenu = rightClick; 
+
+    function hideMenu() { 
+        document.getElementById("contextMenu") 
+                .style.display = "none" 
+    } 
+
+    function rightClick(e) { 
+        e.preventDefault(); 
+
+    } 
+</script>
 <body>
   <vz-projector-app documentation-link="https://christophraab.github.io/Jukebox/" bug-report-link="https://github.com/ChristophRaab/Jukebox/issues" serving-mode="demo" projector-config-json-path="data_storage/projector_config.json" page-view-logging>
   </vz-projector-app>
