@@ -3,7 +3,7 @@
 This repository contains an implementation of arbitrary style transfer running fully
 inside the browser using TensorFlow.js.
 
-Demo website: https://reiinakano.github.io/arbitrary-image-stylization-tfjs
+Demo website: https://style.fiw.fhws.de/
 
 Blog post with more details: https://magenta.tensorflow.org/blog/2018/12/20/style-transfer-js/
 
