@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!--
+Copyright 2018 Reiichiro Nakano All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta http-equiv="pragma" content="no-cache">
+    <title>FHWS Style Transfer</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="dist/bundle.js"></script>
+</head>
+
+<style>
+.centered {
+  margin: auto;    
+  display: block;
+}
+</style>
+
+<body>
+  <div id="contextMenu" class="centered custom-select" style="display: none"> 
+</div> 
+
+<script>
+   document.onclick = hideMenu; 
+   document.oncontextmenu = rightClick; 
+
+    function hideMenu() { 
+        document.getElementById("contextMenu") 
+                .style.display = "none" 
+    } 
+
+    function rightClick(e) { 
+        e.preventDefault(); 
+
+    } 
+</script>
+<!-- <a href="https://github.com/reiinakano/arbitrary-image-stylization-tfjs" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style> -->
+<input type="file" id="file-select" style="display: none" accept="image/x-png,image/gif,image/jpeg"/>
+<!-- As a heading -->
+<div class="jumbotron jumbotron-fluid py-4" style="margin-bottom: 0; text-align: center; background-color: #f5f5f5;">
+    <div class="container">
+      <h4>Künstliche Intelligenz überträgt Kunststille auf Bilder</h1>
+    </div>
+  </div>
+<div class="">
+<div id="mobile-warning" hidden class="alert alert-warning" role="alert">
+  Es kann sein, dass diese Seite auf mobilen Geräten nicht richtig funktioniert. Wenn dies der Fall ist generiert die KI ein schwarzes Bild. Wechseln Sie in diesem Fall zu [Hohe Qualität] in den Einstellungen.
+</div>
+<!-- <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist"> -->
+  <!-- <li class="nav-item"> -->
+    <!-- <a class="nav-link active" id="stylize-tab" data-toggle="tab" href="#stylize" role="tab" aria-controls="stylize" aria-selected="true">Stylize an image</a> -->
+  <!-- </li> -->
+  <!-- <li class="nav-item">
+    <a class="nav-link" id="combine-tab" data-toggle="tab" href="#combine" role="tab" aria-controls="combine" aria-selected="false">Combine two styles</a>
+  </li> -->
+<!-- </ul> -->
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
+      <div class="container">
+        <div class="row my-4">
+          <div class="col mx-5 my-4">
+            <div class="centered" style="width: max-content;margin-bottom: 2%;">
+              <label class="centered" for="style-img" style="display: inline-block;">Auswahl Fotografie</label>
+               <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mit dieser Auswahl bestimmen Sie das Bild auf welches der Stil übertraggen werden soll."></i>
+           </div>
+              <img id="content-img" class="centered" src="images/mainbruecke.jpg" height=256></img>
+      
+              <!-- <label for="content-img-size">Content image size</label> -->
+              <!-- <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top"  -->
+              <!-- title="A bigger content image results in a more detailed output, but increases the processing time significantly."></i>  -->
+              <input  style="display:none;" type="range" min="256" max="400" value="256" class="custom-range centered" id="content-img-size" > 
+              <br>
+              <select id="content-select" class="centered custom-select">
+                <option value="" disabled>Auswahl Bild</option>
+                <option  value="mainbruecke">Mainbrücke</option>
+                <option value="residenz">Residenz</option>
+                <option value="marienberg">Marienberg</option>
+                <option value="maschikuliturm">Maschikuliturm</option>
+                <option value="kaeppele">Käppele</option>
+                <option value="dom">Dom</option>
+                <option value="marienkapelle">Marienkapelle</option>
+                <option value="kulturspeicher">Kulturspeicher</option>
+                <!-- <option value="chicago">chicago</option> -->
+              </select>
+          </div>
+          <div class="col mx-5 my-4">
+            <div class="centered" style="width: max-content;margin-bottom: 2%;">
+              <label class="centered" for="style-img" style="display: inline-block;">Auswahl Kunststil</label>
+               <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mit dieser Auswahl bestimmen Sie den zu übertragenden Kunst-, Mal- oder Bildstil."></i>
+           </div>
+              <img id="style-img" class="centered" crossorigin="anonymous" src="images/seaport.jpg" height=256></img>
+        
+              <!-- <label for="style-img-size">Style image size</label> -->
+              <!-- <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top"  -->
+              <!-- title='Changing the size of a style image usually affects the texture "seen" by the network.'></i> -->
+              <input style="display:none;" id="style-img-square" type="checkbox" style="vertical-align: middle; float: right;"
+              data-toggle="tooltip" data-placement="top"
+              title="Force image to square">
+              <input style="display:none;" type="range" min="100" max="400" value="256" class="custom-range centered" id="style-img-size"> 
+              <br>
+              <select id="style-select" class="centered custom-select">
+                <option value="" disabled>Auswahl Stil</option>
+                <option value="marienkapelledraw">Historische Zeichnung Würzburg</option>
+                <option value="udnie">Udnie</option>
+                <option value="stripes">Streifen</option>
+                <!-- <option value="bricks">Ziegel</option> -->
+                <option value="vangogh">Sternen Nacht</option>
+                <!-- <option value="towers">Türme</option> -->
+                <option value="sketch">Zeichnung</option>
+                <option value="seaport" selected="selected">Hafen</option>
+                <!-- <option value="red_circles">Rote Kreise</option> -->
+                <!-- <option value="zigzag">Zickzackkurs</option> -->
+              </select>
+          </div>
+        </div>
+        <div class="row my-4">
+          <div class="col mx-5 my-4">
+            <canvas id="stylized" class="centered"></canvas>
+            <br>
+            <label for="stylized-img-ratio">Übertragungssträrke des Stils</label>
+            <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
+            title="Dieser Parameter beeinflusst die Stärke der Stilisierung. Je weiter nach rechts, desto stärker die Stilisierung. Dies geschieht durch Interpolation zwischen den Stil-Vektoren der Inhalts- und Stil-Bilder."></i>
+            <input type="range" min="0" max="100" value="100" class="custom-range centered" id="stylized-img-ratio">
+          </div>
+        </div>
+        <div class="row my-4">
+          <div class="col-md-5 offset-md-3" style="margin: auto;">
+              <button disabled id="style-button" type="button" class="btn btn-primary btn-block">Loading stylization model. Please wait..</button>
+          </div>
+          <!-- <div class="col-md-1">
+              <button type="button" id="randomize" class="btn btn-light btn-block">
+                <i class="fas fa-random" data-toggle="tooltip" data-placement="top" 
+                title="Randomize parameters"></i>
+              </button>
+          </div> -->
+        </div>
+      </div>
+  </div>
+  <div class="tab-pane fade" id="combine" role="tabpanel" aria-labelledby="combine-tab">
+    <div class="container">
+      <div class="row my-4">
+        <div class="col mx-5 my-4">
+            <img id="c-style-img-1" class="centered" crossorigin="anonymous" src="images/stripes.jpg" height=256></img>
+            <br>
+            <label for="c-style-img-1-size">Style A Size</label>
+            <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
+            title="Changing the size of a style image usually affects the texture "seen" by the network."></i>
+            <input id="c-style-1-square" type="checkbox" style="vertical-align: middle; float: right;"
+            data-toggle="tooltip" data-placement="top" 
+            title="Force image to square">
+            <input type="range" min="100" max="400" value="256" class="custom-range centered" id="c-style-img-1-size">
+            <br>
+            <select id="c-style-1-select" class="centered custom-select">
+              <option value="" disabled>Select a style</option>
+              <option value="udnie">Udnie</option>
+              <option value="stripes" selected="selected">Streifen</option>
+              <option value="bricks">Ziegel</option>
+              <option value="clouds">Wolken</option>
+              <option value="towers">Türme</option>
+              <option value="sketch">Zeichnung</option>
+              <option value="seaport">Hafen</option>
+              <option value="red_circles">Rote Kreise</option>
+              <option value="zigzag">Zickzackkurs</option>
+            </select>
+        </div>
+        <div class="col mx-5 my-4">
+            <img id="c-style-img-2" class="centered" crossorigin="anonymous" src="images/bricks.jpg" height=256></img>
+            <br>
+            <label for="c-style-img-2-size">Style B Size</label>
+            <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
+            title="Changing the size of a style image usually affects the texture "seen" by the network."></i>
+            <input id="c-style-2-square" type="checkbox" style="vertical-align: middle; float: right;"
+            data-toggle="tooltip" data-placement="top" 
+            title="Force image to square">
+            <input type="range" min="100" max="400" value="256" class="custom-range centered" id="c-style-img-2-size">
+            <br>
+            <select id="c-style-2-select" class="centered custom-select">
+              <option value="" disabled>Select a style</option>
+              <option value="udnie">Udnie</option>
+              <option value="stripes">Streifen</option>
+              <option value="bricks" selected="selected">Ziegel</option>
+              <option value="clouds">clouds</option>
+              <option value="towers">Türme</option>
+              <option value="sketch">Zeichnung</option>
+              <option value="seaport">Hafen</option>
+              <option value="red_circles">Rote Kreise</option>
+              <option value="zigzag">Zickzackkurs</option>
+            </select>
+        </div>
+      </div>
+      <div class="row my-4">
+        <div class="col-md-6 offset-md-3">
+            <img id="c-content-img" class="centered" src="images/statue_of_liberty.jpg" height=256></img>
+            <br>
+            <label for="c-content-img-size">Content image size</label>
+            <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
+            title="A bigger content image results in a more detailed output, but increases the processing time significantly."></i>
+            <input style="display:none;" type="range" min="256" max="400" value="256" class="custom-range centered" id="c-content-img-size">
+            <br> 
+            <select id="c-content-select" class="centered custom-select">
+              <option value="" disabled>Select content</option
+              <option value="stata">stata</option>
+              <option value="diana">diana</option>
+              <option value="golden_gate">golden_gate</option>
+              <option value="beach">beach</option>
+              <option value="chicago">chicago</option>
+              <option value="statue_of_liberty" selected="selected">statue_of_liberty</option>
+            </select>
+        </div>
+      </div>
+      <div class="row my-4">
+        <div class="col-md-6 offset-md-3">
+            <canvas id="c-stylized" class="centered"></canvas>
+            <br>
+            <label for="c-stylized-img-ratio">Stylization Ratio</label>
+            <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" 
+            title="This parameter affects the strength of the two styles relative to each other. This is done via interpolation between the style vectors of the two style images."></i>
+            <input type="range" min="0" max="100" value="50" class="custom-range centered" id="c-stylized-img-ratio">
+        </div>
+      </div>
+      <div class="row my-4">
+        <div class="col-md-5 offset-md-3">
+            <button disabled id="combine-button" type="button" class="btn btn-primary btn-block">Lade KI-Model. Bitte warten..</button>
+        </div>
+        <div class="col-md-1">
+            <button type="button" id="c-randomize" class="btn btn-light btn-block">
+              <i class="fas fa-random" data-toggle="tooltip" data-placement="top" 
+              title="Randomize parameters"></i>
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row my-4">
+    <div class="col-md-3 offset-md-3">
+        <select disabled id="model-select-style" class="centered custom-select">
+          <option value="mobilenet" selected="selected">[Schnell] Komprimiertes MobileNet Style Model (9.6MB)</option>
+          <option value="inception">[Hohe Qualität] Original Inceptionv3 Style Model (36.3MB)</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select disabled id="model-select-transformer" class="centered custom-select">
+          <option value="separable" selected="selected">[Schnell] Transformer mit separierten Conv2d (2.4MB)</option>
+          <option value="original">[Hohe Qualität] Original Transformer Model (7.9MB)</option>
+        </select>
+    </div>
+  </div>
+</div>
+
+<canvas id="hidden-canvas" style="display: none"></canvas>
+<div class="modal fade" id="cam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Take a snapshot!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <video id="webcam-video" class="centered" width="500" height="375"></video>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="snap-button">Snap!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-5" style="background-color: #f5f5f5;">
+  <div class="row">
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Beschreibung und Anleitung
+        </h5>
+        <p>
+          Diese Webapp demonstriert zwei Künstliche Intelligenzen die komplett in Ihrem Browser und schließlich auf Ihrem Gerät laufen. Die eine KI, genannt <i>StyleNetwork</i>, analysiert und komprimiert den Kunststil von einem ausgewählten Kunstbild. Die komprimierte Version wird anschließend an eine zweite KI, dem <i>Transformer Network</i> weitergegeben. Das <i>Transformer Network</i> verarbeitet schließlich ein ausgewähltes Foto und malt dieses basierend auf dem komprimierten Kunstil neu. Sie als Nutzer können bestimmen, wie stark der Einfluss des Kunststills beim Malen des neuen Bilds ist: Wählen Sie beim Schieber einfach die Übertragungsstärke aus. 
+        </p>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Kontakt & Impressum
+        </h5>
+        <p>
+         Christoph Raab. Center for Artificial Intelligence and Robotics (CAIRO). Hochschule für angewandte Wissenschaften Würzburg-Schweinfurt (FHWS.) Sanderheinrichsleitenweg 21 in 97074 Würzburg. Verantwortlich für Inhalt auf style.fiw.fhws.de. 
+         Kontakt: christoph.raab@fhws.de
+         </p>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Datenschutz
+        </h5>
+        <p>
+          Datenschutz gemäß https://www.fhws.de/service/datenschutz/ mit folgenden Einschränkungen: Es werden keine personenbezogenen Daten, weder durch Anbieter der Webseite noch durch verwendete Programmbibliotheken gesammelt.
+          Erstellte Bilder sowie die Einstellungen dazu werden nicht gespeichert. Die Anwendung ist rein browserbasiert, d. h. mit Ausnahme des Ladens der Website entsteht kein Datenaustausch mit dem Zielserver.
+        </p>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Externe Inhalte
+        </h5>
+        <p>
+          Die Hochschule für angewandte Wissenschaften Würzburg-Schweinfurt erklärt, dass sie keinerlei Einfluss auf die Inhalte von gelinkten externen Seiten hat und sich deshalb ausdrücklich von allen Inhalten aller gelinkten externen Seiten auf ihrer gesamten Website distanziert. Diese Erklärung gilt auch für Banner, sowie für alle Inhalte jener Seiten, zu denen diese Banner führen. Neben fremden externen Angeboten, auf die per Hyperlink verwiesen wird, distanziert sich die Hochschule für angewandte Wissenschaften Würzburg-Schweinfurt hiermit ausdrücklich von fremden Inhalten, die auf den eigenen Servern bereitgehalten werden (Web-Hosting). Darunter fallen insbesondere die privaten Homepages von Studierenden.
+        </p>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Fotografen
+        </h5>
+        <ul>
+          <li>  
+              Residenz: Rainer Lippert
+          </li>
+          <li>  
+            Alte Mainbrücke: Christian Horvat 
+        </li>
+        <li>  
+          Maschikuliturm: Rainer Lippert
+      </li>
+      <li>  
+        Würzburger Dom: Christian Horvat
+    </li>
+    <li>
+      Festung Marienberg, Südseite: Avda https://de.wikipedia.org/wiki/Festung_Marienberg#/media/Datei:Festung_Marienberg_-_W%C3%BCrzburg_-_2013.jpg (CC-By-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/) 
+    </li>
+    </li>
+    <li>
+      Käppele: Lukas M. https://de.wikipedia.org/wiki/K%C3%A4ppele_(W%C3%BCrzburg)#/media/Datei:Kaeppele_wuerzburg_festungsfoto.jpg (CC-By-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/) 
+    </li>
+    <li>
+      Marienkappele Zeichnung, Oktobersonne https://de.wikipedia.org/wiki/Marienkapelle_(W%C3%BCrzburg)#/media/Datei:MarienkapelleW%C3%BCrzburg1845PeterGeistL1050207_(2).jpg (CC-By-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/) 
+    </li>
+    <li>
+      Marienkappele Foto, DXR https://de.wikipedia.org/wiki/Marienkapelle_(W%C3%BCrzburg)#/media/Datei:Marienkapelle_W%C3%BCrzburg,_South-West_View_20140107_15.jpg (CC-By-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/) 
+    </li>
+    <li>
+      Zum Alten Hafen - Kulturspeicher, Tors https://de.wikipedia.org/wiki/Kulturspeicher_(W%C3%BCrzburg)#/media/Datei:W%C3%BCrzburg_-_Kulturspeicher_Hafenseite.jpg (CC-By-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/) 
+    </li>
+        </ul>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Quellen
+        </h5>
+        <ul>
+          <li>  
+              Author und Programmmierer: Reiichiro Nakano
+          </li>
+          <li>
+            Quelle der original Implementierung: https://github.com/reiinakano/arbitrary-image-stylization-tfjs (Open Source unter der Apache-2.0 Lizenz)
+          </li>
+          <li>  
+            Anpassung und Übersetzung: Christoph Raab
+        </li>
+          <li>
+            "Exploring the structure of a real-time, arbitrary neural artistic stylization network": Golnaz Ghiasi, Honglak Lee, Manjunath Kudlur, Vincent Dumoulin, Jonathon Shlens.
+          </li>
+          <li>
+            KI Modelle werden vom Magenta-Tensorflow Team gehostet.
+          </li>
+          <li>
+            "MobileNetV2: Inverted Residuals and Linear Bottlenecks": Mark Sandler, Andrew Howard, Menglong Zhu, Andrey Zhmoginov, Liang-Chieh Chen
+          </li>
+          <li>
+            "Distilling the Knowledge in a Neural Network": Geoffrey Hinton, Oriol Vinyals, Jeff Dean</a>.
+          </li>
+
+        </ul>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h5>
+          Verwendetete Drittprogammbibliotheken & Open Source Lizenzen
+        </h5>
+        <ul>
+          <li>  
+              JQuery
+          </li>
+          <li>  
+            Bootstrap Tooltips und Core  
+        </li>
+            <li>  
+              Tensorflow.JS  
+          </li>
+          <li>  
+            Yarn  
+        </li>
+        <li>  
+          NPM  
+      </li>
+      <li>Font Awesome 
+      </li>
+        </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+</body>
+</html>
