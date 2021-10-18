@@ -28,7 +28,6 @@ This repository contains the code for the AI use cases of the Center of Artifici
     │   ├── deploy.sh           # deployment file on the showcase server
     │   └── saved_model_*       # Saved Tensorflow.Js models
     ├── Twitter                 # Twitter Embedding to visualize our Twitter dataset embeddings. See:
-    │   ├── docs                # Explanations for jukebox
     │   ├── index.html          # Main Webapp File
     │   ├── data_storage        # Storage of trained embedding for mozart
     │   ├── deploy.sh           # deployment file on the showcase server
