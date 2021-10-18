@@ -37,6 +37,17 @@ This repository contains the code for the AI use cases of the Center of Artifici
 # Deployment 
 All applications can be hosted via a simple webserver. In the `deploy.sh` is shown how to deploy to apache webserver. 
 
+## Twitter build
+The Twitter webapp is a yarn application. To build the app use:
+```
+yarn run prep
+yarn run build
+```
+The build applications can be inspected for development via: 
+```
+yarn run start
+```
+
 ## Data generation for embeddings:
 To save data comaptible with the tensorboard used at Jukebox or Twitter your data has to be float32 an in `*.bytes` format.
 This can achieved by:
