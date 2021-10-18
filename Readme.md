@@ -12,7 +12,7 @@ This repository contains the code for the AI use cases of the Center of Artifici
 - [ Docs Jukebox](https://christophraab.github.io/Cairo-Showcases/jukebox/docs/) 
 - [Docs Style Transfer](https://christophraab.github.io/Cairo-Showcases/styletransfer/docs/)
 
-## Inhalt
+## Content
 
     ├── Jukebox                 # Mozart Jukebox app to visualize music embeddings. See:
     │   ├── docs                # Explanations for jukebox
