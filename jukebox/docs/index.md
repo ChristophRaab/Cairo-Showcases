@@ -1,5 +1,5 @@
 # Mozart Jukebox - Einführung
-
+Applikation: [https://mozart.fiw.fhws.de/](https://mozart.fiw.fhws.de/)
 ### Wie ähnlich ist Musik von Mozart, Bach oder Bruno Mars?
 Menschliches Gehör erkennt sehr schnell Unterschiede zwischen Musikstücken. Kann ein Computer, genauer gesagt Künstliche Intelligenz (KI), das auch so einfach? Wenn ja, wie funk-tioniert das? Die Anwendung “Projekt Mozart Jukebox” zeigt Ihnen, wie ein Computer, wie eine KI, Komponisten und Künstler anhand ihrer Musik unterscheidet. Sie erfahren auch, wie Menschen Einfluss auf den Lernprozess und damit auf die Ergebnisse nehmen können. Viel Spaß! 
 
