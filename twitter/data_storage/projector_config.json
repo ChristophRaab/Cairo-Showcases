@@ -1,0 +1,23 @@
+{
+  "embeddings": [    
+    {
+    "tensorName": "BERT",
+    "tensorShape": [61536, 3],
+    "tensorPath": "data_storage/tensors_bert.bytes",
+    "metadataPath": "data_storage/metadata_bert.tsv"
+    },
+    {
+    "tensorName": "ALBERT",
+    "tensorShape": [61536, 3],
+    "tensorPath": "data_storage/tensors_albert.bytes",
+    "metadataPath": "data_storage/metadata_albert.tsv"
+    },
+    {
+      "tensorName": "Skip-gram 1000",
+      "tensorShape": [1000, 400],
+      "tensorPath": "data_storage/skipgram_tensors_1000.bytes",
+      "metadataPath": "data_storage/skipgram_metadata_1000.tsv"
+    }
+  ],
+  "modelCheckpointPath": "Demo datasets"
+}
