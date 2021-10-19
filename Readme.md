@@ -1,6 +1,6 @@
 # Cairo Showcases
 
-This repository contains the code for the AI use cases of the Center of Artificial Intelligence and Robotics (Cairo)  
+This repository contains the code for the AI use cases of the Center of Artificial Intelligence and Robotics (CAIRO)  
 
 ## Apps 
 - [Jukebox](https://christophraab.github.io/Cairo-Showcases/mozart/) (Music Embedding, 492 songs 15 artists)
