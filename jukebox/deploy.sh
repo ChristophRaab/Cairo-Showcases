@@ -1,1 +1,0 @@
-cd /home/raab  && sudo cp styletransfer/* -r  /var/www/style.fiw.fhws.de/ && cd /var/www/style.fiw.fhws.de/ &&  sudo service apache2 restart 
