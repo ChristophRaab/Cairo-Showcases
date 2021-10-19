@@ -58,4 +58,5 @@ features.tofile(board_data+data_path)
 ``` 
 
 # Credits
-- Twitter app by https://github.com/reiinakano 
+- Style app by https://github.com/reiinakano 
+- Twitter Embedding trained by Julian Hanke, Christian Niekler, Trong Duc Tran
