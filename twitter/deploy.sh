@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo cp -r /home/raab/twitter/*  /var/www/twitter.fiw.fhws.de/
+sudo cp -r /home/raab/Cairo-Showcases/twitter/*  /var/www/twitter.fiw.fhws.de/
 sudo service apache2 restart 
