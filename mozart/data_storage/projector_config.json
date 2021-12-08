@@ -2,6 +2,16 @@
     "embeddings": [
       {
         "tensorName": "Überwachte KI",
+        "tensorShape": [497, 3],
+        "tensorPath": "data_storage/spectral_resnet_supervised_added.bytes",
+        "metadataPath": "data_storage/metadata_added.tsv",
+        "sprite": {
+          "imagePath": "data_storage/sprite_added.png",
+          "singleImageDim": [32, 32]
+        }
+      },
+      {
+        "tensorName": "Überwachte KI",
         "tensorShape": [492, 3],
         "tensorPath": "data_storage/resnet_supervised.bytes",
         "metadataPath": "data_storage/metadata.tsv",
