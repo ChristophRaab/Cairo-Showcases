@@ -12419,15 +12419,15 @@ a.preventDefault())},_changeValue:function(a){this.value=a.target.value;this.fir
 }
 </style>
 <template>
-<div class="container">
+  <div class="container">
   <div class="buttons">
-    <button class="button reset-filter">Alles anzeigen</button>
-    <button class="button set-filter">Isoliert anzeigen</button>
-    <button class="button clear-selection">Auswahl aufheben</button>
+    <button class="button reset-filter">Alle Daten anzeigen</button>
+    <button class="button set-filter">Selektion isolieren</button>
+    <button class="button clear-selection">Selektion aufheben</button>
   </div>
   <div class="search-by">
     <vz-projector-input id="search-box" label="Suche"></vz-projector-input>
-    <paper-dropdown-menu no-animations label="bei">
+    <paper-dropdown-menu no-animations label="via">
       <paper-listbox attr-for-selected="value" class="dropdown-content" selected="{{selectedMetadataField}}" slot="dropdown-content">
         <template is="dom-repeat" items="[[metadataFields]]">
           <paper-item value="[[item]]" label="[[item]]">
@@ -12443,23 +12443,23 @@ a.preventDefault())},_changeValue:function(a){this.value=a.target.value;this.fir
     <div class="neighbors">
       <div class="neighbors-options">
         <div class="slider num-nn">
-          <span class="option-label">Nachbarn</span>
+          <span class="option-label">neighbors</span>
           <paper-icon-button icon="help" class="help-icon"></paper-icon-button>
           <paper-tooltip position="bottom" animation-delay="0" fit-to-visible-bounds>
-            Die Anzahl der Nachbarn (im ursprünglichen Raum), die beim Klicken auf einen Punkt angezeigt werden sollen.
+            The number of neighbors (in the original space) to show when clicking on a point.
           </paper-tooltip>
           <paper-slider class="nn-slider" pin min="5" max="999" editable value="{{numNN}}" on-change="updateNumNN"></paper-slider>
         </div>
       </div>
       <div class="distance">
-        <span class="option-label">Distanz</span>
+        <span class="option-label">distance</span>
         <div class="options">
-          <a class="selected cosine" href="javascript:void(0);">Kosinus-Ähnlichkeit</a><br>
-          <a class="euclidean" href="javascript:void(0);">Euklidischer Abstand</a>
+          <a class="selected cosine" href="javascript:void(0);">COSINE</a>
+          <a class="euclidean" href="javascript:void(0);">EUCLIDEAN</a>
         </div>
       </div>
     </div>
-    <p>Nächstgelegene Lieder im Datenraum: 
+    <p>Nearest points in the original space:
     <div class="nn-list"></div>
   </div>
   <div class="metadata-info" style="display: none">
@@ -12481,7 +12481,6 @@ a.preventDefault())},_changeValue:function(a){this.value=a.target.value;this.fir
     <div class="limit-msg">Showing only the first 100 results...</div>
   </div>
 </div>
-
 </template>
 <script>//~~WEBPATH~~/vz-projector/vz-projector-inspector-panel.js
 zc=this&&this.__extends||function(){var a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,c){b.__proto__=c}||function(b,c){for(var d in c)c.hasOwnProperty(d)&&(b[d]=c[d])};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}();
@@ -13422,7 +13421,8 @@ canvas {
       <div class="title style-scope vz-projector-data-panel">Impressium und Datenschutz</div>
       <div class="title style-scope vz-projector-data-panel vz-projector" style="height: auto;border-bottom: 0px;font-weight: 300;margin-top: 5px;">         Christoph Raab. Center for Artificial Intelligence and Robotics (CAIRO). Hochschule für angewandte Wissenschaften Würzburg-Schweinfurt (FHWS.) Sanderheinrichsleitenweg 21 in 97074 Würzburg. Verantwortlich für Inhalt auf style.fiw.fhws.de. 
          Kontakt: christoph.raab@fhws.de. Datenschutz gemäß https://www.fhws.de/service/datenschutz/ </div>
-      <vz-projector-inspector-panel style="display:None;" id="inspector-panel"></vz-projector-inspector-panel>
+        <div class="title style-scope vz-projector-data-panel"></div>
+      <vz-projector-inspector-panel id="inspector-panel"></vz-projector-inspector-panel>
     </div>
     <div id="bookmark-panel-container" style="display:None">
       <vz-projector-bookmark-panel id="bookmark-panel"></vz-projector-bookmark-panel>
